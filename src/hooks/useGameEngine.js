@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
 import { processAnswer } from '../lib/scoring'
+import { validateAnswer } from '../lib/validation'
 
 /**
  * Hook state machine pour le moteur de jeu.
@@ -37,23 +38,8 @@ export function useGameEngine(quiz) {
     const q = questionRef.current
     if (state !== 'playing' || !q) return
 
-    let correct = false
-
-    if (q.type === 'open') {
-      const normalize = (s) => String(s).trim().toLowerCase()
-      correct = normalize(userAnswer) === normalize(q.expected)
-    } else if (q.type === 'single') {
-      correct = q.answers[userAnswer]?.correct === true
-    } else if (q.type === 'multiple') {
-      const correctSet = new Set(
-        q.answers
-          .map((a, i) => a.correct ? i : -1)
-          .filter(i => i !== -1)
-      )
-      correct =
-        userAnswer.size === correctSet.size &&
-        [...userAnswer].every(i => correctSet.has(i))
-    }
+    // Validation de la réponse
+    const correct = validateAnswer(q, userAnswer)
 
     // Calcul du score
     const result = processAnswer(correct, q.points, streakRef.current, scoreRef.current)
