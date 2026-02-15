@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import Home from './components/Home'
 import Editor from './components/Editor'
 import Game from './components/Game'
+import Tutorial from './components/Tutorial'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/editor" element={<Editor />} />
           <Route path="/game" element={<Game />} />
+          <Route path="/tutorial" element={<Tutorial />} />
         </Route>
       </Routes>
     </HashRouter>

@@ -1,11 +1,12 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import pkg from '../../package.json'
 
 function Layout() {
   return (
     <div className="layout">
       <nav className="navbar">
         <NavLink to="/" className="navbar__logo">
-          QuizzBrawl
+          QuizzBrawl <span className="navbar__version">v{pkg.version}</span>
         </NavLink>
         <div className="navbar__links">
           <NavLink
@@ -26,12 +27,12 @@ function Layout() {
             Éditeur
           </NavLink>
           <NavLink
-            to="/game"
+            to="/tutorial"
             className={({ isActive }) =>
               `navbar__link${isActive ? ' navbar__link--active' : ''}`
             }
           >
-            Jouer
+            Tutoriel IA
           </NavLink>
         </div>
       </nav>
