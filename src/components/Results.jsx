@@ -9,12 +9,12 @@ function Confetti({ count = 40 }) {
   const pieces = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
-      left: `${Math.random() * 100}%`, // eslint-disable-line react-hooks/purity
+      left: `${Math.random() * 100}%`,
       color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-      delay: `${Math.random() * 1.5}s`, // eslint-disable-line react-hooks/purity
-      duration: `${2 + Math.random() * 2}s`, // eslint-disable-line react-hooks/purity
-      size: 6 + Math.random() * 8, // eslint-disable-line react-hooks/purity
-      rotation: Math.random() * 360, // eslint-disable-line react-hooks/purity
+      delay: `${Math.random() * 1.5}s`,
+      duration: `${2 + Math.random() * 2}s`,
+      size: 6 + Math.random() * 8,
+      rotation: Math.random() * 360,
     }))
   }, [count])
 
@@ -84,38 +84,6 @@ function Results({ quiz, results, score, onReplay }) {
 
       {/* Rank badge avec animation */}
       <RankBadge rank={rank} animated />
-
-      {/* Échelle des rangs */}
-      <div className="rank-ladder">
-        <h3 className="rank-ladder__title">Échelle des rangs</h3>
-        <div className="rank-ladder__tiers">
-          {[
-            { name: 'Légendaire', icon: '👑', minPoints: 500, color: '#ff6f00' },
-            { name: 'Diamant', icon: '💎', minPoints: 350, color: '#b9f2ff' },
-            { name: 'Or', icon: '🥇', minPoints: 200, color: '#ffd700' },
-            { name: 'Argent', icon: '🥈', minPoints: 100, color: '#c0c0c0' },
-            { name: 'Bronze', icon: '🥉', minPoints: 50, color: '#cd7f32' },
-            { name: 'Bois', icon: '🪵', minPoints: 0, color: '#8b6914' },
-          ].map((tier, i, arr) => {
-            const isCurrentRank = rank.name === tier.name
-            const maxPoints = i > 0 ? arr[i - 1].minPoints - 1 : '∞'
-            return (
-              <div
-                key={tier.name}
-                className={`rank-tier ${isCurrentRank ? 'rank-tier--current' : ''}`}
-                style={{ '--tier-color': tier.color }}
-              >
-                <span className="rank-tier__icon">{tier.icon}</span>
-                <span className="rank-tier__name">{tier.name}</span>
-                <span className="rank-tier__range">
-                  {tier.minPoints} - {maxPoints} pts
-                </span>
-                {isCurrentRank && <span className="rank-tier__badge">Vous êtes ici</span>}
-              </div>
-            )
-          })}
-        </div>
-      </div>
 
       {/* Stats */}
       <div className="results__stats">

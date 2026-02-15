@@ -104,7 +104,7 @@ Exemple complet :
 3. **Les numéros de question doivent être séquentiels** : 1, 2, 3…
 4. **Propose entre 2 et 6 réponses** pour les questions à choix (unique ou multiples).
 5. **Adapte le temps au niveau de difficulté** : question facile → 10-15s, moyenne → 20-30s, difficile → 30-45s.
-6. **Adapte les points au niveau de difficulté** : facile → 10-40 pts, moyenne → 40-80 pts, difficile → 90-140 pts.
+6. **Adapte les points au niveau de difficulté** : facile → 5-10 pts, moyenne → 10-20 pts, difficile → 20-30 pts.
 7. **Fournis une explication** pour chaque question quand c'est pertinent — cela enrichit l'expérience d'apprentissage.
 8. **Varie les types de questions** dans un même quiz pour maintenir l'intérêt du joueur.
 9. **Les réponses incorrectes doivent être plausibles** — évite les réponses absurdes qui se devinent immédiatement.
