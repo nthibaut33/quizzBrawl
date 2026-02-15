@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { processAnswer } from '../lib/scoring'
 import { validateAnswer } from '../lib/validation'
 
@@ -19,11 +19,21 @@ export function useGameEngine(quiz) {
 
   // Refs pour éviter les dépendances dans les callbacks
   const questionRef = useRef(question)
-  questionRef.current = question
   const scoreRef = useRef(score)
-  scoreRef.current = score
   const streakRef = useRef(streak)
-  streakRef.current = streak
+
+  // Mise à jour des refs dans useEffect pour éviter les warnings de lint
+  useEffect(() => {
+    questionRef.current = question
+  }, [question])
+
+  useEffect(() => {
+    scoreRef.current = score
+  }, [score])
+
+  useEffect(() => {
+    streakRef.current = streak
+  }, [streak])
 
   const start = useCallback(() => {
     setState('playing')
