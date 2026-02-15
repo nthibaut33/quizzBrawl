@@ -613,28 +613,6 @@ body {
 
 .game__score-icon { font-size: 1.1rem; }
 
-/* === Streak Badge === */
-
-.game__streak {
-  font-family: 'Bungee', cursive;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.8rem;
-  border-radius: 20px;
-}
-
-.game__streak--combo {
-  background: rgba(230, 184, 0, 0.15);
-  color: var(--accent-yellow);
-  border: 2px solid rgba(230, 184, 0, 0.4);
-}
-
-.game__streak--fire {
-  background: rgba(233, 69, 96, 0.15);
-  color: #ff6b35;
-  border: 2px solid rgba(255, 107, 53, 0.5);
-  text-shadow: 0 0 12px rgba(255, 107, 53, 0.5);
-}
-
 /* === Points Popup === */
 
 .game__points-popup {
@@ -646,8 +624,6 @@ body {
   animation: points-pop 0.5s ease-out;
   will-change: transform, opacity;
 }
-
-.game__points-bonus { color: #ff6b35; font-size: 0.8rem; }
 
 @keyframes points-pop {
   0% { opacity: 0; transform: translateY(8px) scale(0.7); }
@@ -1103,7 +1079,6 @@ body {
 .results__stat--correct .results__stat-value { color: var(--accent-green); }
 .results__stat--wrong .results__stat-value { color: var(--accent-red); }
 .results__stat--percent .results__stat-value { color: var(--accent-yellow); }
-.results__stat--streak .results__stat-value { color: #ff6b35; }
 
 /* === Results Breakdown === */
 

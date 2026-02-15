@@ -9,10 +9,9 @@ import { validateAnswer } from '../lib/validation'
 export function useGameEngine(quiz) {
   const [state, setState] = useState('ready')     // ready | playing | answered | finished
   const [questionIndex, setQuestionIndex] = useState(0)
-  const [results, setResults] = useState([])       // { correct, answer, points, bonus }
+  const [results, setResults] = useState([])       // { correct, answer, points }
   const [score, setScore] = useState(0)
-  const [streak, setStreak] = useState(0)
-  const [lastPoints, setLastPoints] = useState(null) // { points, bonus, streakLabel } pour affichage
+  const [lastPoints, setLastPoints] = useState(null) // { points } pour affichage
 
   const question = quiz?.questions?.[questionIndex] ?? null
   const total = quiz?.questions?.length ?? 0
@@ -22,8 +21,6 @@ export function useGameEngine(quiz) {
   questionRef.current = question
   const scoreRef = useRef(score)
   scoreRef.current = score
-  const streakRef = useRef(streak)
-  streakRef.current = streak
   const stateRef = useRef(state)
   stateRef.current = state
   const questionIndexRef = useRef(questionIndex)
@@ -36,7 +33,6 @@ export function useGameEngine(quiz) {
     setQuestionIndex(0)
     setResults([])
     setScore(0)
-    setStreak(0)
     setLastPoints(null)
   }, [])
 
@@ -48,12 +44,11 @@ export function useGameEngine(quiz) {
     const correct = validateAnswer(q, userAnswer)
 
     // Calcul du score
-    const result = processAnswer(correct, q.points, streakRef.current, scoreRef.current)
+    const result = processAnswer(correct, q.points, scoreRef.current)
 
     setScore(result.newScore)
-    setStreak(result.newStreak)
-    setLastPoints({ points: result.points, bonus: result.bonus, streakLabel: result.streakLabel })
-    setResults(prev => [...prev, { correct, answer: userAnswer, points: result.points, bonus: result.bonus }])
+    setLastPoints({ points: result.points })
+    setResults(prev => [...prev, { correct, answer: userAnswer, points: result.points }])
     setState('answered')
   }, [])
 
@@ -77,7 +72,6 @@ export function useGameEngine(quiz) {
     total,
     results,
     score,
-    streak,
     lastPoints,
     start,
     answer,

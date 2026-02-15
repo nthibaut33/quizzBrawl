@@ -36,7 +36,7 @@ function Home() {
             <span className="step-card__num">3</span>
             <div>
               <strong className="step-card__title">Obtiens ton rang</strong>
-              <p className="step-card__desc">Cumule des points et des streaks pour atteindre le rang Légendaire !</p>
+              <p className="step-card__desc">Cumule des points pour atteindre le rang Légendaire !</p>
             </div>
           </div>
         </div>
