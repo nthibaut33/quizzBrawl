@@ -12,7 +12,7 @@ function Game() {
   const markdown = location.state?.markdown
 
   const parsed = useMemo(() => markdown ? parseQuiz(markdown) : null, [markdown])
-  const quiz = parsed?.errors ? null : parsed
+  const quiz = useMemo(() => parsed?.errors ? null : parsed, [parsed])
 
   const engine = useGameEngine(quiz)
   const { state, question, questionIndex, total, results, score, streak, lastPoints, start, answer, next } = engine
@@ -100,18 +100,16 @@ function Game() {
       </div>
       <div className="game__header">
         <span className="game__counter">Question {questionIndex + 1} / {total}</span>
+        {streak >= 3 && (
+          <span className={`game__streak ${streak >= 5 ? 'game__streak--fire' : 'game__streak--combo'}`}>
+            {streak >= 5 ? `x${streak} ON FIRE!` : `x${streak} Combo!`}
+          </span>
+        )}
         <span className="game__score">
           <span className="game__score-icon">&#9733;</span>
           {score}
         </span>
       </div>
-
-      {/* Streak badge */}
-      {streak >= 3 && (
-        <div className={`game__streak ${streak >= 5 ? 'game__streak--fire' : 'game__streak--combo'}`}>
-          {streak >= 5 ? `x${streak} ON FIRE!` : `x${streak} Combo!`}
-        </div>
-      )}
 
       {/* Question */}
       <div className="game__question">
@@ -176,11 +174,6 @@ function Game() {
             <span className="game__points-popup">
               +{lastPoints.points}
               {lastPoints.bonus > 0 && <span className="game__points-bonus"> +{lastPoints.bonus} streak</span>}
-            </span>
-          )}
-          {lastPoints?.streakLabel && (
-            <span className={`game__streak-flash game__streak-flash--level${lastPoints.streakLabel.level}`}>
-              {lastPoints.streakLabel.label}
             </span>
           )}
           {question.explanation && (
