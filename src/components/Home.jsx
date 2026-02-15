@@ -26,7 +26,7 @@ function Home() {
       <div className="home__hero">
         <h1 className="home__logo">QuizzBrawl</h1>
         <p className="home__tagline">
-          Crée ton quiz en Markdown et défie tes amis !
+          Crée ton quiz en Markdown et défie tes parents !
         </p>
         <button className="btn btn--primary home__cta" onClick={() => navigate('/editor')}>
           Créer un Quiz
