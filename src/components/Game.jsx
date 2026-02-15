@@ -1,10 +1,24 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, memo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { parseQuiz } from '../lib/parser'
 import { useGameEngine } from '../hooks/useGameEngine'
 import AnswerCard from './ui/AnswerCard'
 import OpenAnswer from './ui/OpenAnswer'
 import Results from './Results'
+
+// Memoized StreakBadge component to prevent unnecessary re-renders
+const StreakBadge = memo(({ streak }) => {
+  if (streak < 3) return null
+  
+  const isFire = streak >= 5
+  return (
+    <span 
+      className={`game__streak ${isFire ? 'game__streak--fire' : 'game__streak--combo'}`}
+    >
+      {isFire ? `x${streak} ON FIRE!` : `x${streak} Combo!`}
+    </span>
+  )
+})
 
 function Game() {
   const location = useLocation()
@@ -19,6 +33,36 @@ function Game() {
 
   // Pour les questions à choix multiples, on stocke la sélection locale
   const [multiSelection, setMultiSelection] = useState(new Set())
+
+  // En jeu : playing / answered
+  const revealed = state === 'answered'
+  const lastResult = revealed ? results[results.length - 1] : null
+  const progress = ((questionIndex + 1) / total) * 100
+
+  function handleSingleSelect(index) {
+    if (revealed) return
+    answer(index)
+  }
+
+  function handleMultiToggle(index) {
+    if (revealed) return
+    setMultiSelection(prev => {
+      const next = new Set(prev)
+      if (next.has(index)) next.delete(index)
+      else next.add(index)
+      return next
+    })
+  }
+
+  function handleMultiValidate() {
+    if (revealed || multiSelection.size === 0) return
+    answer(multiSelection)
+  }
+
+  function handleNext() {
+    setMultiSelection(new Set())
+    next()
+  }
 
   // Pas de markdown → retour éditeur
   if (!markdown || !quiz) {
@@ -62,36 +106,6 @@ function Game() {
     )
   }
 
-  // En jeu : playing / answered
-  const revealed = state === 'answered'
-  const lastResult = revealed ? results[results.length - 1] : null
-  const progress = ((questionIndex + 1) / total) * 100
-
-  function handleSingleSelect(index) {
-    if (revealed) return
-    answer(index)
-  }
-
-  function handleMultiToggle(index) {
-    if (revealed) return
-    setMultiSelection(prev => {
-      const next = new Set(prev)
-      if (next.has(index)) next.delete(index)
-      else next.add(index)
-      return next
-    })
-  }
-
-  function handleMultiValidate() {
-    if (revealed || multiSelection.size === 0) return
-    answer(multiSelection)
-  }
-
-  function handleNext() {
-    setMultiSelection(new Set())
-    next()
-  }
-
   return (
     <div className="game">
       {/* Progress bar */}
@@ -100,11 +114,7 @@ function Game() {
       </div>
       <div className="game__header">
         <span className="game__counter">Question {questionIndex + 1} / {total}</span>
-        {streak >= 3 && (
-          <span className={`game__streak ${streak >= 5 ? 'game__streak--fire' : 'game__streak--combo'}`}>
-            {streak >= 5 ? `x${streak} ON FIRE!` : `x${streak} Combo!`}
-          </span>
-        )}
+        <StreakBadge streak={streak} />
         <span className="game__score">
           <span className="game__score-icon">&#9733;</span>
           {score}

@@ -418,6 +418,7 @@ body {
   border-radius: 4px;
   transition: width 0.4s ease;
   box-shadow: 0 0 8px rgba(230, 184, 0, 0.4);
+  will-change: width;
 }
 
 .game__header { display: flex; align-items: center; justify-content: space-between; }
@@ -433,13 +434,7 @@ body {
   border: var(--border-thick) solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  animation: question-appear 0.4s ease-out;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes question-appear {
-  from { opacity: 0; transform: translateX(-20px) scale(0.97); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 .game__question-text { font-size: 1.5rem; color: var(--text-primary); }
@@ -465,19 +460,7 @@ body {
   font-size: 1.5rem;
   transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
-  animation: answer-slide-in 0.3s ease-out both;
-}
-
-.answer-card:nth-child(1) { animation-delay: 0.05s; }
-.answer-card:nth-child(2) { animation-delay: 0.1s; }
-.answer-card:nth-child(3) { animation-delay: 0.15s; }
-.answer-card:nth-child(4) { animation-delay: 0.2s; }
-.answer-card:nth-child(5) { animation-delay: 0.25s; }
-.answer-card:nth-child(6) { animation-delay: 0.3s; }
-
-@keyframes answer-slide-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  will-change: transform;
 }
 
 .answer-card:hover:not(:disabled) {
@@ -661,6 +644,7 @@ body {
   font-size: 0.95rem;
   color: var(--accent-yellow);
   animation: points-pop 0.5s ease-out;
+  will-change: transform, opacity;
 }
 
 .game__points-bonus { color: #ff6b35; font-size: 0.8rem; }

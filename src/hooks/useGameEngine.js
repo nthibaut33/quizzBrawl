@@ -24,6 +24,12 @@ export function useGameEngine(quiz) {
   scoreRef.current = score
   const streakRef = useRef(streak)
   streakRef.current = streak
+  const stateRef = useRef(state)
+  stateRef.current = state
+  const questionIndexRef = useRef(questionIndex)
+  questionIndexRef.current = questionIndex
+  const totalRef = useRef(total)
+  totalRef.current = total
 
   const start = useCallback(() => {
     setState('playing')
@@ -36,7 +42,7 @@ export function useGameEngine(quiz) {
 
   const answer = useCallback((userAnswer) => {
     const q = questionRef.current
-    if (state !== 'playing' || !q) return
+    if (stateRef.current !== 'playing' || !q) return
 
     // Validation de la réponse
     const correct = validateAnswer(q, userAnswer)
@@ -49,20 +55,20 @@ export function useGameEngine(quiz) {
     setLastPoints({ points: result.points, bonus: result.bonus, streakLabel: result.streakLabel })
     setResults(prev => [...prev, { correct, answer: userAnswer, points: result.points, bonus: result.bonus }])
     setState('answered')
-  }, [state])
+  }, [])
 
   const next = useCallback(() => {
-    if (state !== 'answered') return
+    if (stateRef.current !== 'answered') return
 
     setLastPoints(null)
-    const nextIndex = questionIndex + 1
-    if (nextIndex >= total) {
+    const nextIndex = questionIndexRef.current + 1
+    if (nextIndex >= totalRef.current) {
       setState('finished')
     } else {
       setQuestionIndex(nextIndex)
       setState('playing')
     }
-  }, [state, questionIndex, total])
+  }, [])
 
   return {
     state,
