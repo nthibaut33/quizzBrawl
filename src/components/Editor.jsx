@@ -31,7 +31,7 @@ const TEMPLATE = `# Culture Générale
 > Temps: 10`
 
 function Editor() {
-  const [markdown, setMarkdown] = useState(TEMPLATE)
+  const [markdown, setMarkdown] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const navigate = useNavigate()
 
@@ -51,6 +51,12 @@ function Editor() {
       <div className="editor__header">
         <h1 className="editor__title">Éditeur de Quiz</h1>
         <div className="editor__actions">
+          <button
+            className="btn btn--outline"
+            onClick={() => setMarkdown(TEMPLATE)}
+          >
+            Quiz exemple
+          </button>
           <button
             className="btn btn--secondary"
             onClick={() => setShowPreview(!showPreview)}

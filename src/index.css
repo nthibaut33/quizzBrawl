@@ -233,6 +233,24 @@ body {
   box-shadow: 0 1px 0 #1a1a35;
 }
 
+.btn--outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  box-shadow: none;
+}
+
+.btn--outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.btn--outline:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
 .btn--small {
   font-size: 0.78rem;
   padding: 0.3rem 0.8rem;
