@@ -81,9 +81,21 @@ Après les réponses, tu peux ajouter des métadonnées en blockquote (`>`). Tou
 
 | Métadonnée         | Syntaxe               | Valeur par défaut | Description                              |
 |--------------------|-----------------------|-------------------|------------------------------------------|
-| Points             | `> Points: N`         | 10                | Nombre de points attribués si correct    |
-| Temps              | `> Temps: N`          | 30                | Secondes accordées pour répondre         |
+| Points             | `> Points: N`         | _(obligatoire)_   | Nombre de points attribués si correct    |
 | Explication        | `> Explication: texte`| _(aucune)_        | Feedback affiché après la réponse        |
+
+### Répartition des points
+
+Le total des points d'un quiz est toujours de **500 points**. Les points doivent être répartis entre les questions en fonction de leur difficulté relative :
+
+| Difficulté de la question | Points suggérés         |
+|---------------------------|-------------------------|
+| Facile                    | ~30 pts                 |
+| Moyenne                   | ~50 pts                 |
+| Difficile                 | ~70 pts                 |
+
+- La somme de tous les `> Points: N` du quiz **doit être exactement 500**.
+- Ajuste les valeurs individuelles pour atteindre ce total tout en respectant la proportionnalité selon la difficulté.
 
 Exemple complet :
 
@@ -91,8 +103,7 @@ Exemple complet :
 ## Question 4 : Quelle est la couleur du cheval blanc d'Henri 4 ?
 = blanc
 > Explication: C'est dans la question !
-> Points: 10
-> Temps: 15
+> Points: 30
 ```
 
 ---
@@ -103,8 +114,8 @@ Exemple complet :
 2. **Ne mélange pas les types dans une même question.** Une question utilise soit des `- [ ]`/`- [x]`, soit `= réponse`, jamais les deux.
 3. **Les numéros de question doivent être séquentiels** : 1, 2, 3…
 4. **Propose entre 2 et 6 réponses** pour les questions à choix (unique ou multiples).
-5. **Adapte le temps au niveau de difficulté** : question facile → 10-15s, moyenne → 20-30s, difficile → 30-45s.
-6. **Adapte les points au niveau de difficulté** : facile → 5-10 pts, moyenne → 10-20 pts, difficile → 20-30 pts.
+5. **Le total des points doit être exactement 500.** Répartis les points entre les questions proportionnellement à leur difficulté (facile ~30 pts, moyenne ~50 pts, difficile ~70 pts). Ajuste pour que la somme fasse 500.
+6. **La première question (Question 1) doit toujours être très simple** et rapporter moins de 50 points. Elle sert d'échauffement pour le joueur.
 7. **Fournis une explication** pour chaque question quand c'est pertinent — cela enrichit l'expérience d'apprentissage.
 8. **Varie les types de questions** dans un même quiz pour maintenir l'intérêt du joueur.
 9. **Les réponses incorrectes doivent être plausibles** — évite les réponses absurdes qui se devinent immédiatement.
@@ -125,8 +136,7 @@ Exemple complet :
 - [x] Paris
 - [ ] Madrid
 > Explication: Paris est la capitale de la France depuis le Xe siècle.
-> Points: 10
-> Temps: 15
+> Points: 80
 
 ## Question 2 : Quels langages sont interprétés ?
 - [x] Python
@@ -134,20 +144,17 @@ Exemple complet :
 - [x] JavaScript
 - [ ] Rust
 > Explication: Python et JavaScript sont des langages interprétés, tandis que C et Rust sont compilés.
-> Points: 20
-> Temps: 20
+> Points: 150
 
 ## Question 3 : Combien font 12 x 7 ?
 = 84
 > Explication: 12 x 7 = 84.
-> Points: 15
-> Temps: 10
+> Points: 120
 
 ## Question 4 : Qui a peint la Joconde ?
 = Léonard de Vinci
 > Explication: La Joconde a été peinte par Léonard de Vinci au début du XVIe siècle.
-> Points: 10
-> Temps: 15
+> Points: 150
 ```
 
 ---
@@ -160,3 +167,4 @@ Quand on te demande de générer un quiz :
 2. **Produis uniquement le bloc Markdown** — pas de texte explicatif avant ou après, sauf si demandé.
 3. **Respecte strictement le format** décrit ci-dessus pour que le parseur QuizzBrawl puisse interpréter ton quiz sans erreur.
 4. **Vérifie la cohérence** : pas de doublons, les bonnes réponses sont correctes, les explications sont exactes.
+5. **Ta réponse doit TOUJOURS être au format Markdown, présentée dans un unique bloc de code** (délimité par des triples backticks ` ```markdown ... ``` `) prêt à être copié-collé. Ne fournis aucun texte en dehors de ce bloc de code.
