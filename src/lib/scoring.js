@@ -15,6 +15,28 @@ export function calculatePoints(correct, basePoints = 10) {
 }
 
 /**
+ * Retourne le multiplicateur de streak selon la série en cours.
+ * @param {number} streak - Nombre de bonnes réponses consécutives (après cette réponse)
+ * @returns {number} Multiplicateur (0, 0.2 ou 0.5)
+ */
+export function getStreakMultiplier(streak) {
+  if (streak >= 5) return 0.5
+  if (streak >= 3) return 0.2
+  return 0
+}
+
+/**
+ * Retourne le label d'affichage de streak.
+ * @param {number} streak
+ * @returns {string|null}
+ */
+export function getStreakLabel(streak) {
+  if (streak >= 5) return 'x5 ON FIRE!'
+  if (streak >= 3) return 'x3 Combo!'
+  return null
+}
+
+/**
  * Détermine le rang en fonction du score total.
  * @param {number} score
  * @returns {{ name: string, nameEn: string, color: string, minPoints: number }}
@@ -39,12 +61,17 @@ export function getRank(score) {
  * Calcule le résultat complet d'une réponse et met à jour le state de scoring.
  * @param {boolean} correct
  * @param {number} basePoints - Points de base de la question
+ * @param {number} currentStreak - Streak avant cette réponse
  * @param {number} currentScore - Score actuel avant cette réponse
- * @returns {{ points: number, newScore: number }}
+ * @returns {{ points: number, bonus: number, newStreak: number, newScore: number, streakLabel: string|null }}
  */
-export function processAnswer(correct, basePoints, currentScore) {
+export function processAnswer(correct, basePoints, currentStreak, currentScore) {
   const points = calculatePoints(correct, basePoints)
-  const newScore = currentScore + points
+  const newStreak = correct ? currentStreak + 1 : 0
+  const multiplier = correct ? getStreakMultiplier(newStreak) : 0
+  const bonus = Math.round(points * multiplier)
+  const newScore = currentScore + points + bonus
+  const streakLabel = correct ? getStreakLabel(newStreak) : null
 
-  return { points, newScore }
+  return { points, bonus, newStreak, newScore, streakLabel }
 }

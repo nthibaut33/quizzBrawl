@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { calculatePoints, getRank, processAnswer } from './scoring'
+import { calculatePoints, getStreakMultiplier, getStreakLabel, getRank, processAnswer } from './scoring'
 
 describe('calculatePoints', () => {
   it('retourne les points de base si correct', () => {
@@ -14,6 +14,42 @@ describe('calculatePoints', () => {
 
   it('utilise 10 par défaut', () => {
     expect(calculatePoints(true)).toBe(10)
+  })
+})
+
+describe('getStreakMultiplier', () => {
+  it('retourne 0 pour streak < 3', () => {
+    expect(getStreakMultiplier(0)).toBe(0)
+    expect(getStreakMultiplier(1)).toBe(0)
+    expect(getStreakMultiplier(2)).toBe(0)
+  })
+
+  it('retourne 0.2 pour streak 3-4', () => {
+    expect(getStreakMultiplier(3)).toBe(0.2)
+    expect(getStreakMultiplier(4)).toBe(0.2)
+  })
+
+  it('retourne 0.5 pour streak >= 5', () => {
+    expect(getStreakMultiplier(5)).toBe(0.5)
+    expect(getStreakMultiplier(10)).toBe(0.5)
+  })
+})
+
+describe('getStreakLabel', () => {
+  it('retourne null pour streak < 3', () => {
+    expect(getStreakLabel(0)).toBeNull()
+    expect(getStreakLabel(1)).toBeNull()
+    expect(getStreakLabel(2)).toBeNull()
+  })
+
+  it('retourne "x3 Combo!" pour streak 3-4', () => {
+    expect(getStreakLabel(3)).toBe('x3 Combo!')
+    expect(getStreakLabel(4)).toBe('x3 Combo!')
+  })
+
+  it('retourne "x5 ON FIRE!" pour streak >= 5', () => {
+    expect(getStreakLabel(5)).toBe('x5 ON FIRE!')
+    expect(getStreakLabel(10)).toBe('x5 ON FIRE!')
   })
 })
 
@@ -60,50 +96,79 @@ describe('getRank', () => {
 })
 
 describe('processAnswer', () => {
-  it('bonne réponse : points de base', () => {
-    const result = processAnswer(true, 10, 0)
+  it('bonne réponse sans streak : points de base, streak à 1', () => {
+    const result = processAnswer(true, 10, 0, 0)
     expect(result.points).toBe(10)
+    expect(result.bonus).toBe(0)
+    expect(result.newStreak).toBe(1)
     expect(result.newScore).toBe(10)
+    expect(result.streakLabel).toBeNull()
   })
 
-  it('mauvaise réponse : 0 point', () => {
-    const result = processAnswer(false, 10, 50)
+  it('mauvaise réponse : 0 point, streak reset', () => {
+    const result = processAnswer(false, 10, 4, 50)
     expect(result.points).toBe(0)
+    expect(result.bonus).toBe(0)
+    expect(result.newStreak).toBe(0)
     expect(result.newScore).toBe(50)
+    expect(result.streakLabel).toBeNull()
   })
 
-  it('respecte les points de base personnalisés', () => {
-    const result = processAnswer(true, 25, 0)
-    expect(result.points).toBe(25)
-    expect(result.newScore).toBe(25)
+  it('streak de 3 : bonus +20%, label Combo', () => {
+    const result = processAnswer(true, 10, 2, 20)
+    expect(result.newStreak).toBe(3)
+    expect(result.bonus).toBe(2) // 10 * 0.2
+    expect(result.newScore).toBe(32) // 20 + 10 + 2
+    expect(result.streakLabel).toBe('x3 Combo!')
+  })
+
+  it('streak de 5 : bonus +50%, label ON FIRE', () => {
+    const result = processAnswer(true, 10, 4, 50)
+    expect(result.newStreak).toBe(5)
+    expect(result.bonus).toBe(5) // 10 * 0.5
+    expect(result.newScore).toBe(65) // 50 + 10 + 5
+    expect(result.streakLabel).toBe('x5 ON FIRE!')
+  })
+
+  it('bonus arrondi correctement avec points impairs', () => {
+    const result = processAnswer(true, 15, 2, 0)
+    expect(result.bonus).toBe(3) // 15 * 0.2 = 3
+    expect(result.newScore).toBe(18)
   })
 
   it('simule une séquence complète de jeu', () => {
     let score = 0
+    let streak = 0
 
-    // Q1: correct (10pts)
-    let r = processAnswer(true, 10, score)
-    score = r.newScore
+    // Q1: correct → streak 1
+    let r = processAnswer(true, 10, streak, score)
+    score = r.newScore; streak = r.newStreak
     expect(score).toBe(10)
+    expect(streak).toBe(1)
 
-    // Q2: correct (10pts)
-    r = processAnswer(true, 10, score)
-    score = r.newScore
+    // Q2: correct → streak 2
+    r = processAnswer(true, 10, streak, score)
+    score = r.newScore; streak = r.newStreak
     expect(score).toBe(20)
+    expect(streak).toBe(2)
 
-    // Q3: correct (10pts)
-    r = processAnswer(true, 10, score)
-    score = r.newScore
-    expect(score).toBe(30)
+    // Q3: correct → streak 3, bonus +20% = +2
+    r = processAnswer(true, 10, streak, score)
+    score = r.newScore; streak = r.newStreak
+    expect(score).toBe(32) // 20 + 10 + 2
+    expect(streak).toBe(3)
+    expect(r.streakLabel).toBe('x3 Combo!')
 
-    // Q4: faux (0pts)
-    r = processAnswer(false, 10, score)
-    score = r.newScore
-    expect(score).toBe(30)
+    // Q4: faux → streak reset
+    r = processAnswer(false, 10, streak, score)
+    score = r.newScore; streak = r.newStreak
+    expect(score).toBe(32)
+    expect(streak).toBe(0)
 
-    // Q5: correct (10pts)
-    r = processAnswer(true, 10, score)
-    score = r.newScore
-    expect(score).toBe(40)
+    // Q5: correct → streak 1
+    r = processAnswer(true, 10, streak, score)
+    score = r.newScore; streak = r.newStreak
+    expect(score).toBe(42)
+    expect(streak).toBe(1)
   })
 })

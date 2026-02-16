@@ -49,7 +49,21 @@ function Results({ quiz, results, score, onReplay }) {
   const percentage = Math.round((correctCount / total) * 100)
 
   const totalPoints = useMemo(() => {
-    return results.reduce((sum, r) => sum + r.points, 0)
+    return results.reduce((sum, r) => sum + r.points + (r.bonus || 0), 0)
+  }, [results])
+
+  const maxStreak = useMemo(() => {
+    let max = 0
+    let current = 0
+    for (const r of results) {
+      if (r.correct) {
+        current++
+        if (current > max) max = current
+      } else {
+        current = 0
+      }
+    }
+    return max
   }, [results])
 
   const showConfetti = percentage >= 50
@@ -85,6 +99,12 @@ function Results({ quiz, results, score, onReplay }) {
           <span className="results__stat-value">{percentage}%</span>
           <span className="results__stat-label">Réussite</span>
         </div>
+        {maxStreak >= 3 && (
+          <div className="results__stat results__stat--streak">
+            <span className="results__stat-value">{maxStreak}</span>
+            <span className="results__stat-label">Meilleur streak</span>
+          </div>
+        )}
       </div>
 
       {/* Détail par question */}
@@ -97,7 +117,7 @@ function Results({ quiz, results, score, onReplay }) {
               <span className="results__question-num">Q{i + 1}</span>
               <span className="results__question-text">{q.text}</span>
               <span className="results__question-points">
-                {r.correct ? `+${r.points}` : '0'}
+                {r.correct ? `+${r.points}${r.bonus > 0 ? ` +${r.bonus}` : ''}` : '0'}
               </span>
             </div>
           )

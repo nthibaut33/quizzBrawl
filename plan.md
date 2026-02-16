@@ -110,8 +110,8 @@ quizzbrawl/
 | Événement                        | Points        |
 |----------------------------------|---------------|
 | Bonne réponse                    | Base question |
-| Série de 3 bonnes réponses       | Bonus streak +5 |
-| Série de 5 bonnes réponses       | Bonus streak +15 |
+| Série de 3 bonnes réponses       | Bonus streak +20% |
+| Série de 5 bonnes réponses       | Bonus streak +50% |
 | Mauvaise réponse                 | 0 point       |
 
 **Rangs (trophées style Brawl Stars) :**
@@ -275,6 +275,58 @@ quizzbrawl/
 
 **Livrables possibles :**
 - [x] Tests unitaires (Vitest) pour le parseur et le scoring
+
+---
+
+### STEP 10 — Gestion des Streaks (séries de bonnes réponses)
+**Objectif :** Récompenser les séries de bonnes réponses consécutives avec des bonus visuels et des points supplémentaires.
+
+**Livrables :**
+
+#### Logique (`lib/scoring.js`)
+- [ ] Fonction `getStreakMultiplier(streak)` : retourne le multiplicateur selon la série en cours
+  - Streak 3 → +20% des points de base
+  - Streak 5 → +50% des points de base
+  - Sinon → 0
+- [ ] Fonction `getStreakLabel(streak)` : retourne le label d'affichage
+  - Streak 3-4 → `"x3 Combo!"`
+  - Streak 5+ → `"x5 ON FIRE!"`
+  - Sinon → `null`
+- [ ] `processAnswer()` mis à jour : accepte `currentStreak`, retourne `{ points, bonus, newStreak, newScore, streakLabel }`
+  - `newStreak = correct ? currentStreak + 1 : 0`
+
+#### Hook (`hooks/useGameEngine.js`)
+- [ ] Ajouter state `streak` (initialisé à 0) + `streakRef`
+- [ ] Passer `streak` à `processAnswer()`
+- [ ] Stocker `bonus` et `streakLabel` dans `lastPoints`
+- [ ] Inclure `bonus` dans les résultats par question
+
+#### UI (`components/Game.jsx`)
+- [ ] Composant `StreakBadge` : affiche le label de streak avec animation
+  - Style "Combo" (bleu/cyan) pour streak 3-4
+  - Style "ON FIRE" (rouge/orange) pour streak 5+
+- [ ] Affichage du bonus dans le popup de points (`+X points +Y streak`)
+- [ ] Animations CSS : `streak-appear`, `streak-pulse`, `streak-flash`
+
+#### UI (`components/Results.jsx`)
+- [ ] Calcul et affichage du "Meilleur streak" dans les stats
+- [ ] Affichage des bonus dans le détail par question
+
+#### UI (`components/Home.jsx`)
+- [ ] Mettre à jour le texte : "Cumule des points et des streaks pour atteindre le rang Légendaire !"
+
+#### Styles (`index.css`)
+- [ ] Classes `.game__streak`, `.game__streak--combo`, `.game__streak--fire`
+- [ ] Classe `.game__points-bonus`
+- [ ] Classe `.results__stat--streak`
+- [ ] Keyframes : `streak-appear`, `streak-pulse`, `streak-flash`
+
+#### Tests (`lib/scoring.test.js`)
+- [ ] Tests `getStreakBonus()` : vérifie les paliers 0, 1, 2, 3, 4, 5, 10
+- [ ] Tests `getStreakLabel()` : vérifie les labels aux paliers
+- [ ] Tests `processAnswer()` : vérifie le calcul complet avec streak
+
+**Critère de validation :** Les séries de bonnes réponses affichent un badge animé, les bonus sont ajoutés au score, et le meilleur streak apparaît dans les résultats.
 
 ---
 

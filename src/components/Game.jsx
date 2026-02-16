@@ -1,10 +1,23 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, memo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { parseQuiz } from '../lib/parser'
 import { useGameEngine } from '../hooks/useGameEngine'
 import AnswerCard from './ui/AnswerCard'
 import OpenAnswer from './ui/OpenAnswer'
 import Results from './Results'
+
+const StreakBadge = memo(function StreakBadge({ streak, label }) {
+  if (!label) return null
+  const isFire = streak >= 5
+  return (
+    <span
+      key={streak}
+      className={`game__streak ${isFire ? 'game__streak--fire' : 'game__streak--combo'}`}
+    >
+      {label}
+    </span>
+  )
+})
 
 function Game() {
   const location = useLocation()
@@ -15,7 +28,7 @@ function Game() {
   const quiz = useMemo(() => parsed?.errors ? null : parsed, [parsed])
 
   const engine = useGameEngine(quiz)
-  const { state, question, questionIndex, total, results, score, lastPoints, start, answer, next } = engine
+  const { state, question, questionIndex, total, results, score, streak, lastPoints, start, answer, next } = engine
 
   // Pour les questions à choix multiples, on stocke la sélection locale
   const [multiSelection, setMultiSelection] = useState(new Set())
@@ -100,6 +113,7 @@ function Game() {
       </div>
       <div className="game__header">
         <span className="game__counter">Question {questionIndex + 1} / {total}</span>
+        <StreakBadge streak={streak} label={lastPoints?.streakLabel} />
         <span className="game__score">
           <span className="game__score-icon">&#9733;</span>
           {score}
@@ -168,6 +182,9 @@ function Game() {
           {lastPoints && lastPoints.points > 0 && (
             <span className="game__points-popup">
               +{lastPoints.points}
+              {lastPoints.bonus > 0 && (
+                <span className="game__points-bonus"> +{lastPoints.bonus} streak</span>
+              )}
             </span>
           )}
           {question.explanation && (
