@@ -1,3 +1,5 @@
+import MathText from './MathText'
+
 function AnswerCard({ text, index, selected, correct, revealed, type, onSelect }) {
   const isMultiple = type === 'multiple'
 
@@ -18,7 +20,7 @@ function AnswerCard({ text, index, selected, correct, revealed, type, onSelect }
           : String.fromCharCode(65 + index)
         }
       </span>
-      <span className="answer-card__text">{text}</span>
+      <span className="answer-card__text"><MathText text={text} /></span>
       {revealed && selected && correct && (
         <span className="answer-card__icon answer-card__icon--correct">{'\u2713'}</span>
       )}

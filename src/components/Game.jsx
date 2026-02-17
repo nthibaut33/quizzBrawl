@@ -4,6 +4,7 @@ import { parseQuiz } from '../lib/parser'
 import { useGameEngine } from '../hooks/useGameEngine'
 import AnswerCard from './ui/AnswerCard'
 import OpenAnswer from './ui/OpenAnswer'
+import MathText from './ui/MathText'
 import Results from './Results'
 
 const StreakBadge = memo(function StreakBadge({ streak, label }) {
@@ -122,7 +123,7 @@ function Game() {
 
       {/* Question */}
       <div className="game__question">
-        <span className="game__question-text">{question.text}</span>
+        <span className="game__question-text"><MathText text={question.text} /></span>
       </div>
 
       {/* Réponses */}
@@ -188,7 +189,7 @@ function Game() {
             </span>
           )}
           {question.explanation && (
-            <p className="game__feedback-explanation">{question.explanation}</p>
+            <p className="game__feedback-explanation"><MathText text={question.explanation} /></p>
           )}
         </div>
       )}

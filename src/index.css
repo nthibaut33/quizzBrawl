@@ -1255,3 +1255,17 @@ body {
   .rank-badge__name { font-size: 1.3rem; }
   .results__stat { min-width: 70px; padding: 0.5rem 0.7rem; }
 }
+
+/* === KaTeX Dark Theme Overrides === */
+
+.katex { color: var(--text-primary); font-size: 1.1em; }
+.katex-display { margin: 0.5em 0; text-align: center; }
+.katex-display > .katex { text-align: center; }
+
+.answer-card__text .katex,
+.game__question-text .katex,
+.game__feedback-explanation .katex,
+.preview-question__text .katex,
+.results__question-text .katex {
+  color: inherit;
+}

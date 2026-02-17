@@ -330,6 +330,58 @@ quizzbrawl/
 
 ---
 
+### STEP 11 — Support KaTeX (formules mathématiques)
+**Objectif :** Permettre l'écriture et l'affichage de formules mathématiques dans les questions et les réponses grâce à KaTeX (choisi à la place de MathJax : plus léger ~200KB, rendu synchrone, bundlé nativement par Vite, compatible `file://`).
+
+**Syntaxe dans le markdown du quiz :**
+- `$formule$` → formule inline (ex: `$x^2 + 3x = 0$`)
+- `$$formule$$` → formule en bloc (ex: `$$\frac{a}{b} = c$$`)
+- Compatible avec la syntaxe LaTeX standard reconnue par KaTeX
+
+**Exemple dans un quiz :**
+```markdown
+## Question 1 : Quelle est la dérivée de $f(x) = x^3 + 2x$ ?
+- [ ] $f'(x) = 3x + 2$
+- [x] $f'(x) = 3x^2 + 2$
+- [ ] $f'(x) = x^2 + 2$
+- [ ] $f'(x) = 3x^2$
+> Explication: On applique la règle $\frac{d}{dx}x^n = nx^{n-1}$
+
+## Question 2 : Résoudre $2x + 5 = 15$
+= 5
+> Explication: $2x = 10$, donc $x = 5$
+```
+
+**Livrables :**
+
+#### Intégration KaTeX
+- [x] Ajouter `katex` comme dépendance npm (`katex@0.16.28`)
+- [x] Importer `katex/dist/katex.min.css` dans `main.jsx` (CSS + polices bundlés par Vite)
+
+#### Composant de rendu (`components/ui/MathText.jsx`)
+- [x] Composant `MathText` : reçoit une prop `text`, détecte `$$...$$` (bloc) et `$...$` (inline), rend via `katex.renderToString()`
+- [x] Rendu synchrone avec `useMemo` (pas besoin de re-typeset async comme MathJax)
+- [x] Fallback gracieux : si une formule est invalide, affiche la syntaxe LaTeX brute (`throwOnError: false`)
+- [x] Optimisation : si le texte ne contient pas de `$`, retourne directement le texte sans traitement
+
+#### Intégration dans les composants existants
+- [x] `Game.jsx` : `MathText` pour le texte des questions et les explications
+- [x] `AnswerCard.jsx` : `MathText` pour le texte des réponses (choix unique / multiples)
+- [x] `Results.jsx` : `MathText` pour le récap des questions
+- [x] `Editor.jsx` : `MathText` dans l'aperçu pour prévisualiser les formules
+
+#### Parseur (`lib/parser.js`)
+- [x] Vérifié : le parseur préserve déjà intégralement les délimiteurs `$...$` et `$$...$$` dans tous les champs (`text`, `answers[].text`, `expected`, `explanation`) — aucune modification nécessaire
+
+#### Styles (`index.css`)
+- [x] Styles `.katex` : couleur héritée du thème sombre, taille adaptée (`1.1em`)
+- [x] Styles `.katex-display` : centrage et marges pour les formules en bloc
+- [x] Sélecteurs contextuels pour que les formules héritent la couleur dans les answer cards, questions, explications, aperçu et résultats
+
+**Critère de validation :** Un quiz contenant des formules mathématiques en syntaxe LaTeX s'affiche correctement dans l'éditeur (aperçu), pendant le jeu et dans les résultats. Le bundle `dist/` fonctionne en `file://` sans CDN externe. ✅ Build OK, 68 tests passent.
+
+---
+
 ## Règles de Développement
 
 1. **Chaque STEP est autonome** : l'app fonctionne (dev + build) à la fin de chaque étape

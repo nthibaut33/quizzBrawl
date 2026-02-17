@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getRank } from '../lib/scoring'
 import RankBadge from './ui/RankBadge'
+import MathText from './ui/MathText'
 
 const CONFETTI_COLORS = ['#e6b800', '#e94560', '#2ecc71', '#b9f2ff', '#ff6b35', '#ffd700']
 
@@ -115,7 +116,7 @@ function Results({ quiz, results, score, onReplay }) {
           return (
             <div key={i} className={`results__question ${r.correct ? 'results__question--correct' : 'results__question--wrong'}`}>
               <span className="results__question-num">Q{i + 1}</span>
-              <span className="results__question-text">{q.text}</span>
+              <span className="results__question-text"><MathText text={q.text} /></span>
               <span className="results__question-points">
                 {r.correct ? `+${r.points}${r.bonus > 0 ? ` +${r.bonus}` : ''}` : '0'}
               </span>

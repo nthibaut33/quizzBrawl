@@ -108,6 +108,45 @@ Exemple complet :
 
 ---
 
+## Formules Mathématiques (KaTeX / LaTeX)
+
+Tu peux inclure des formules mathématiques dans les questions, les réponses et les explications en utilisant la syntaxe LaTeX :
+
+- **Inline** : `$formule$` — pour les formules dans le texte (ex : `$x^2 + 3x = 0$`)
+- **Bloc** : `$$formule$$` — pour les formules centrées sur leur propre ligne (ex : `$$\frac{a}{b} = c$$`)
+
+### Exemples d'utilisation
+
+```markdown
+## Question 5 : Quelle est la dérivée de $f(x) = 3x^2 + 5x$ ?
+- [ ] $f'(x) = 3x + 5$
+- [x] $f'(x) = 6x + 5$
+- [ ] $f'(x) = 6x^2 + 5$
+> Explication: On applique la règle $\frac{d}{dx}x^n = nx^{n-1}$ à chaque terme.
+> Points: 50
+
+## Question 6 : Quelle est la valeur de l'intégrale suivante ? $$\int_0^1 2x \, dx$$
+- [x] $1$
+- [ ] $2$
+- [ ] $0$
+> Explication: $$\int_0^1 2x \, dx = \left[ x^2 \right]_0^1 = 1$$
+> Points: 70
+
+## Question 7 : Pour $n = 100$, combien vaut $$\sum_{k=1}^{n} k$$ ?
+= 5050
+> Explication: On utilise la formule $\frac{n(n+1)}{2} = \frac{100 \times 101}{2} = 5050$.
+> Points: 70
+```
+
+### Règles pour les formules
+
+- La syntaxe LaTeX est rendue par KaTeX. Utilise uniquement des commandes supportées par KaTeX.
+- Les formules inline `$...$` s'intègrent dans le texte courant.
+- Les formules bloc `$$...$$` sont centrées et affichées sur une ligne séparée.
+- Pour les questions à réponse libre contenant des formules, la réponse attendue (`= ...`) reste en texte brut (pas de LaTeX).
+
+---
+
 ## Règles à Respecter Impérativement
 
 1. **Chaque question doit avoir au moins une bonne réponse.** Pour les choix (unique/multiples), il faut au moins un `[x]`.

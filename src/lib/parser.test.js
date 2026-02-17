@@ -212,6 +212,78 @@ describe('parseQuiz', () => {
     expect(result.errors).toBeDefined()
   })
 
+  // --- Formules LaTeX (KaTeX) ---
+
+  it('préserve les formules inline $...$ dans le texte des questions', () => {
+    const md = `# Quiz Maths
+## Quelle est la dérivée de $f(x) = x^3$ ?
+- [ ] $3x$
+- [x] $3x^2$
+- [ ] $x^2$`
+
+    const result = parseQuiz(md)
+    expect(result.errors).toBeUndefined()
+    const q = result.questions[0]
+    expect(q.text).toBe('Quelle est la dérivée de $f(x) = x^3$ ?')
+    expect(q.answers[0].text).toBe('$3x$')
+    expect(q.answers[1].text).toBe('$3x^2$')
+  })
+
+  it('préserve les formules bloc $$...$$ dans le texte des questions', () => {
+    const md = `# Q
+## Simplifier $$\\frac{a}{b} = c$$
+- [x] Oui
+- [ ] Non`
+
+    const q = parseQuiz(md).questions[0]
+    expect(q.text).toBe('Simplifier $$\\frac{a}{b} = c$$')
+  })
+
+  it('préserve les formules dans les explications', () => {
+    const md = `# Q
+## Résoudre $2x + 5 = 15$
+= 5
+> Explication: $2x = 10$, donc $x = 5$`
+
+    const q = parseQuiz(md).questions[0]
+    expect(q.explanation).toBe('$2x = 10$, donc $x = 5$')
+  })
+
+  it('préserve les formules dans les réponses ouvertes', () => {
+    const md = `# Q
+## Quelle est la valeur de $\\sqrt{144}$ ?
+= 12`
+
+    const q = parseQuiz(md).questions[0]
+    expect(q.text).toContain('$\\sqrt{144}$')
+    expect(q.expected).toBe('12')
+  })
+
+  it('gère un quiz complet avec formules mélangées', () => {
+    const md = `# Quiz Maths
+> Un quiz de mathématiques
+
+## Question 1 : Dérivée de $x^2$ ?
+- [ ] $x$
+- [x] $2x$
+- [ ] $2$
+> Explication: La règle donne $\\frac{d}{dx}x^n = nx^{n-1}$
+> Points: 20
+
+## Question 2 : Résoudre $3x = 9$
+= 3
+> Explication: $x = \\frac{9}{3} = 3$`
+
+    const result = parseQuiz(md)
+    expect(result.errors).toBeUndefined()
+    expect(result.questions).toHaveLength(2)
+    expect(result.questions[0].type).toBe('single')
+    expect(result.questions[0].points).toBe(20)
+    expect(result.questions[0].answers[1].text).toBe('$2x$')
+    expect(result.questions[1].type).toBe('open')
+    expect(result.questions[1].expected).toBe('3')
+  })
+
   it('ignore les lignes vides et le contenu non structuré', () => {
     const md = `# Quiz
 

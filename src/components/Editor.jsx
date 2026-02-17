@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { parseQuiz } from '../lib/parser'
+import MathText from './ui/MathText'
 
 const TEMPLATE = `# Culture Générale
 > Un quiz pour tester tes connaissances !
@@ -106,7 +107,7 @@ function Editor() {
                 {questions.map((q, i) => (
                   <div key={i} className="preview-question">
                     <span className="preview-question__num">Q{i + 1}</span>
-                    <span className="preview-question__text">{q.text}</span>
+                    <span className="preview-question__text"><MathText text={q.text} /></span>
                     <span className={`preview-question__type preview-question__type--${q.type}`}>
                       {q.type === 'single' ? 'Choix unique' : q.type === 'multiple' ? 'Choix multiples' : 'Réponse libre'}
                     </span>
