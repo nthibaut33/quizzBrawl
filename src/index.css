@@ -843,10 +843,10 @@ body {
   border-radius: var(--radius-lg);
 }
 
-.home__cta-section {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.home__cta-secondary {
+  font-size: 1rem;
+  padding: 0.65rem 1.8rem;
+  border-radius: var(--radius-lg);
 }
 
 /* Shared home section */

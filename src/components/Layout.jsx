@@ -26,14 +26,6 @@ function Layout() {
           >
             Éditeur
           </NavLink>
-          <NavLink
-            to="/tutorial"
-            className={({ isActive }) =>
-              `navbar__link${isActive ? ' navbar__link--active' : ''}`
-            }
-          >
-            Tutoriel IA
-          </NavLink>
         </div>
       </nav>
       <main className="main-content">

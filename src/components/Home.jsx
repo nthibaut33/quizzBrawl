@@ -13,6 +13,9 @@ function Home() {
         <button className="btn btn--primary home__cta" onClick={() => navigate('/editor')}>
           Créer un Quiz
         </button>
+        <button className="btn btn--secondary home__cta-secondary" onClick={() => navigate('/tutorial')}>
+          📚 Générer avec une IA
+        </button>
       </div>
 
       <div className="home__section">
@@ -59,11 +62,7 @@ function Home() {
 = 84`}</pre>
       </div>
 
-      <div className="home__cta-section">
-        <button className="btn btn--secondary" onClick={() => navigate('/tutorial')}>
-          📚 Générer avec une IA
-        </button>
-      </div>
+
     </div>
   )
 }
