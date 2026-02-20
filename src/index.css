@@ -760,8 +760,12 @@ body {
   color: var(--text-secondary);
   white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: break-word;
   max-height: 500px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  will-change: transform;
+  contain: paint;
 }
 
 .tutorial__rules-content::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -876,12 +880,6 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-md);
   padding: 0.9rem 1.1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.step-card:hover {
-  border-color: rgba(230, 184, 0, 0.2);
-  box-shadow: 0 4px 12px rgba(230, 184, 0, 0.1);
 }
 
 .step-card__num {
@@ -977,8 +975,10 @@ body {
   color: var(--text-secondary);
   white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: break-word;
   max-height: 400px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .home__rules-content::-webkit-scrollbar { width: 6px; height: 6px; }
