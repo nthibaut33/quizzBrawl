@@ -17,6 +17,18 @@ export const THEMES = {
     emoji: '🦄',
     colors: ['#ff6eb4', '#c084fc', '#67e8f9'],
   },
+  harrypotter: {
+    id: 'harrypotter',
+    label: 'Harry Potter',
+    emoji: '⚡',
+    colors: ['#c9a84c', '#740001', '#1a472a'],
+  },
+  pokemon: {
+    id: 'pokemon',
+    label: 'Pokémon',
+    emoji: '🔴',
+    colors: ['#f8d030', '#cc0000', '#1565c0'],
+  },
 }
 
 export const DEFAULT_THEME = 'brawl'

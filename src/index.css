@@ -1919,6 +1919,818 @@ body {
   color: var(--text-primary);
 }
 
+/* === Harry Potter Theme === */
+
+[data-theme="harrypotter"] {
+  --bg-dark: #1a0e00;        /* parchemin brûlé très sombre */
+  --bg-darker: #110900;      /* encore plus sombre */
+  --bg-card: #2c1a00;        /* bois sombre de Poudlard */
+  --accent-yellow: #c9a84c;  /* or de Gryffondor */
+  --accent-blue: #222f5b;    /* bleu Serdaigle */
+  --accent-red: #740001;     /* rouge Gryffondor */
+  --accent-green: #2a623d;   /* vert Serpentard */
+  --text-primary: #f5e6c8;   /* parchemin crème */
+  --text-secondary: rgba(245, 230, 200, 0.65);
+}
+
+[data-theme="harrypotter"] body {
+  background: linear-gradient(160deg, #0d0800 0%, #1a0e00 40%, #0a0e1a 100%);
+  background-attachment: fixed;
+}
+
+/* Navbar */
+[data-theme="harrypotter"] .navbar {
+  background: linear-gradient(180deg, #1a0e00, #110900);
+  border-bottom: 3px solid #c9a84c;
+  box-shadow: 0 2px 16px rgba(201, 168, 76, 0.2);
+}
+
+[data-theme="harrypotter"] .navbar__logo {
+  color: #c9a84c;
+  text-shadow: 0 2px 0 #7a5c10, 0 0 20px rgba(201, 168, 76, 0.3);
+  animation: hp-shimmer 5s ease-in-out infinite;
+}
+
+[data-theme="harrypotter"] .navbar__version {
+  background: rgba(201, 168, 76, 0.1);
+  color: rgba(201, 168, 76, 0.6);
+}
+
+[data-theme="harrypotter"] .navbar__link {
+  color: rgba(245, 230, 200, 0.65);
+}
+
+[data-theme="harrypotter"] .navbar__link:hover {
+  background: rgba(201, 168, 76, 0.08);
+  color: #f5e6c8;
+}
+
+[data-theme="harrypotter"] .navbar__link--active {
+  color: #c9a84c;
+  background: rgba(201, 168, 76, 0.12);
+  border-color: #c9a84c;
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.2);
+}
+
+/* Theme picker */
+[data-theme="harrypotter"] .theme-picker-btn {
+  background: rgba(201, 168, 76, 0.1);
+  border-color: rgba(201, 168, 76, 0.25);
+  color: #c9a84c;
+}
+
+[data-theme="harrypotter"] .theme-picker-btn:hover {
+  background: rgba(201, 168, 76, 0.18);
+}
+
+[data-theme="harrypotter"] .theme-picker-dropdown {
+  background: #2c1a00;
+  border-color: #c9a84c;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="harrypotter"] .theme-picker-dropdown__title {
+  color: rgba(201, 168, 76, 0.6);
+}
+
+[data-theme="harrypotter"] .theme-picker__card {
+  border-color: rgba(201, 168, 76, 0.2);
+  color: #f5e6c8;
+  background: rgba(201, 168, 76, 0.05);
+}
+
+[data-theme="harrypotter"] .theme-picker__card:hover {
+  background: rgba(201, 168, 76, 0.12);
+  border-color: #c9a84c;
+}
+
+[data-theme="harrypotter"] .theme-picker__card--active {
+  border-color: #c9a84c;
+  background: rgba(201, 168, 76, 0.15);
+}
+
+/* Buttons */
+[data-theme="harrypotter"] .btn--primary {
+  background: linear-gradient(180deg, #e0b84e, #c9a84c);
+  color: #1a0e00;
+  box-shadow: 0 4px 0 #7a5c10, 0 6px 15px rgba(201, 168, 76, 0.25);
+  border-bottom-color: #5c4208;
+}
+
+[data-theme="harrypotter"] .btn--primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 5px 0 #7a5c10, 0 8px 20px rgba(201, 168, 76, 0.35);
+}
+
+[data-theme="harrypotter"] .btn--primary:active:not(:disabled) {
+  box-shadow: 0 1px 0 #7a5c10;
+}
+
+[data-theme="harrypotter"] .btn--secondary {
+  background: linear-gradient(180deg, #3a2200, #2c1a00);
+  color: #f5e6c8;
+  border-color: rgba(201, 168, 76, 0.25);
+  box-shadow: 0 4px 0 #0d0900;
+}
+
+[data-theme="harrypotter"] .btn--secondary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #452800, #3a2200);
+  box-shadow: 0 5px 0 #0d0900;
+}
+
+[data-theme="harrypotter"] .btn--secondary:active:not(:disabled) {
+  box-shadow: 0 1px 0 #0d0900;
+}
+
+[data-theme="harrypotter"] .btn--outline {
+  border-color: rgba(201, 168, 76, 0.3);
+  color: rgba(245, 230, 200, 0.65);
+}
+
+[data-theme="harrypotter"] .btn--outline:hover:not(:disabled) {
+  background: rgba(201, 168, 76, 0.07);
+  border-color: rgba(201, 168, 76, 0.55);
+  color: #f5e6c8;
+}
+
+/* Code blocks */
+[data-theme="harrypotter"] .code-block {
+  background: #110900;
+  border-color: rgba(201, 168, 76, 0.12);
+  color: rgba(245, 230, 200, 0.7);
+}
+
+[data-theme="harrypotter"] .inline-code {
+  background: rgba(201, 168, 76, 0.12);
+  color: #c9a84c;
+}
+
+/* Editor */
+[data-theme="harrypotter"] .editor__title {
+  color: #c9a84c;
+  text-shadow: 0 2px 0 #7a5c10;
+}
+
+[data-theme="harrypotter"] .editor__textarea {
+  background: #110900;
+  border-color: rgba(201, 168, 76, 0.2);
+  color: #f5e6c8;
+}
+
+[data-theme="harrypotter"] .editor__textarea::placeholder {
+  color: rgba(245, 230, 200, 0.3);
+}
+
+[data-theme="harrypotter"] .editor__textarea:focus {
+  border-color: #c9a84c;
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.15);
+}
+
+/* Preview card */
+[data-theme="harrypotter"] .preview-card {
+  background: linear-gradient(135deg, #2c1a00, #1a0e00);
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+[data-theme="harrypotter"] .preview-card__title { color: #c9a84c; }
+
+[data-theme="harrypotter"] .preview-card__stat {
+  background: rgba(201, 168, 76, 0.06);
+}
+
+/* Game */
+[data-theme="harrypotter"] .game-ready__title {
+  color: #c9a84c;
+  text-shadow: 0 3px 0 #7a5c10;
+}
+
+[data-theme="harrypotter"] .game__progress {
+  background: rgba(201, 168, 76, 0.1);
+}
+
+[data-theme="harrypotter"] .game__progress-bar {
+  background: linear-gradient(90deg, #740001, #c9a84c, #2a623d);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
+}
+
+[data-theme="harrypotter"] .game__question {
+  background: linear-gradient(135deg, #2c1a00, #1a1a3a);
+  border-color: rgba(201, 168, 76, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="harrypotter"] .game__score {
+  color: #c9a84c;
+  text-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
+}
+
+/* Answer cards */
+[data-theme="harrypotter"] .answer-card {
+  background: linear-gradient(135deg, #2c1a00, #1a1a3a);
+  border-color: rgba(201, 168, 76, 0.2);
+  box-shadow: 0 3px 0 #0d0900;
+}
+
+[data-theme="harrypotter"] .answer-card:hover:not(:disabled) {
+  border-color: #c9a84c;
+  background: linear-gradient(135deg, #3a2200, #1e1e45);
+  box-shadow: 0 5px 0 #0d0900, 0 0 12px rgba(201, 168, 76, 0.15);
+}
+
+[data-theme="harrypotter"] .answer-card--selected {
+  border-color: #c9a84c;
+  background: linear-gradient(135deg, #3d2400, #22224d);
+  box-shadow: 0 0 14px rgba(201, 168, 76, 0.2);
+}
+
+[data-theme="harrypotter"] .answer-card__marker { color: #c9a84c; }
+
+/* Open answer */
+[data-theme="harrypotter"] .open-answer__input {
+  background: #110900;
+  border-color: rgba(201, 168, 76, 0.25);
+  color: #f5e6c8;
+}
+
+[data-theme="harrypotter"] .open-answer__input::placeholder {
+  color: rgba(245, 230, 200, 0.3);
+}
+
+[data-theme="harrypotter"] .open-answer__input:focus {
+  border-color: #c9a84c;
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.15);
+}
+
+[data-theme="harrypotter"] .open-answer__expected {
+  background: rgba(201, 168, 76, 0.05);
+  border-left-color: #2a623d;
+}
+
+/* Feedback */
+[data-theme="harrypotter"] .game__feedback--correct {
+  background: rgba(42, 98, 61, 0.2);
+  border-color: rgba(42, 98, 61, 0.5);
+}
+
+[data-theme="harrypotter"] .game__feedback--wrong {
+  background: rgba(116, 0, 1, 0.2);
+  border-color: rgba(116, 0, 1, 0.5);
+}
+
+[data-theme="harrypotter"] .game__feedback--correct .game__feedback-label { color: #4ade80; }
+[data-theme="harrypotter"] .game__feedback--wrong .game__feedback-label   { color: #f87171; }
+
+/* Streaks */
+[data-theme="harrypotter"] .game__streak--combo {
+  color: #c9a84c;
+  background: rgba(201, 168, 76, 0.12);
+  border-color: rgba(201, 168, 76, 0.4);
+  text-shadow: 0 0 8px rgba(201, 168, 76, 0.5);
+}
+
+[data-theme="harrypotter"] .game__streak--fire {
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.4);
+  text-shadow: 0 0 8px rgba(249, 115, 22, 0.5);
+}
+
+[data-theme="harrypotter"] .game__points-popup { color: #c9a84c; }
+
+[data-theme="harrypotter"] .game__points-bonus {
+  color: #86efac;
+  text-shadow: 0 0 6px rgba(134, 239, 172, 0.4);
+}
+
+/* Results */
+[data-theme="harrypotter"] .results__title {
+  color: #c9a84c;
+  text-shadow: 0 3px 0 #7a5c10;
+  animation: hp-shimmer 5s ease-in-out infinite;
+}
+
+[data-theme="harrypotter"] .results__score-value {
+  color: #c9a84c;
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+}
+
+[data-theme="harrypotter"] .results__stat {
+  background: linear-gradient(135deg, #2c1a00, #1a1a3a);
+  border-color: rgba(201, 168, 76, 0.15);
+}
+
+[data-theme="harrypotter"] .results__stat--correct .results__stat-value { color: #4ade80; }
+[data-theme="harrypotter"] .results__stat--wrong .results__stat-value   { color: #f87171; }
+[data-theme="harrypotter"] .results__stat--percent .results__stat-value { color: #c9a84c; }
+[data-theme="harrypotter"] .results__stat--streak .results__stat-value  { color: #fbbf24; }
+
+[data-theme="harrypotter"] .results__question-points { color: #c9a84c; }
+
+[data-theme="harrypotter"] .results__question {
+  background: rgba(201, 168, 76, 0.04);
+}
+
+[data-theme="harrypotter"] .results__question--correct {
+  background: rgba(42, 98, 61, 0.15);
+  border-left-color: #2a623d;
+}
+
+[data-theme="harrypotter"] .results__question--wrong {
+  background: rgba(116, 0, 1, 0.15);
+  border-left-color: #740001;
+}
+
+[data-theme="harrypotter"] .results__question-text { color: #f5e6c8; }
+
+[data-theme="harrypotter"] .results__breakdown-title {
+  color: rgba(245, 230, 200, 0.6);
+}
+
+/* Rank progress */
+[data-theme="harrypotter"] .rank-progress__bar-track {
+  background: rgba(201, 168, 76, 0.1);
+  border-color: rgba(201, 168, 76, 0.08);
+}
+
+[data-theme="harrypotter"] .rank-progress__step-pts {
+  color: rgba(245, 230, 200, 0.6);
+}
+
+/* Home */
+[data-theme="harrypotter"] .home__logo {
+  color: #c9a84c;
+  text-shadow: 0 4px 0 #7a5c10, 0 0 30px rgba(201, 168, 76, 0.25);
+}
+
+[data-theme="harrypotter"] .step-card {
+  background: linear-gradient(135deg, #2c1a00, #1a1a3a);
+  border-color: rgba(201, 168, 76, 0.1);
+}
+
+[data-theme="harrypotter"] .step-card__num {
+  color: #c9a84c;
+  background: rgba(201, 168, 76, 0.1);
+  border-color: rgba(201, 168, 76, 0.25);
+}
+
+[data-theme="harrypotter"] .step-card__num--blue {
+  color: #f5e6c8;
+  background: #222f5b;
+  border-color: #222f5b;
+  box-shadow: 0 3px 0 #111a36;
+}
+
+[data-theme="harrypotter"] .home__rules-block {
+  background: #110900;
+  border-color: rgba(201, 168, 76, 0.12);
+}
+
+[data-theme="harrypotter"] .home__rules-header:hover {
+  background: rgba(201, 168, 76, 0.05);
+}
+
+[data-theme="harrypotter"] .home__rules-arrow { color: #c9a84c; }
+
+[data-theme="harrypotter"] .home__ai-tip,
+[data-theme="harrypotter"] .tutorial__tip {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(34,47,91,0.15));
+  border-color: rgba(201, 168, 76, 0.25);
+}
+
+[data-theme="harrypotter"] .home__ai-tip-title,
+[data-theme="harrypotter"] .tutorial__tip-title { color: #c9a84c; }
+
+/* Tutorial */
+[data-theme="harrypotter"] .tutorial__title {
+  color: #c9a84c;
+  text-shadow: 0 3px 0 #7a5c10;
+}
+
+[data-theme="harrypotter"] .tutorial__rules-content {
+  background: #110900;
+  border-color: rgba(201, 168, 76, 0.1);
+}
+
+/* KaTeX */
+[data-theme="harrypotter"] .katex { color: var(--text-primary); }
+
+/* === Harry Potter shimmer animation === */
+
+@keyframes hp-shimmer {
+  0%   { color: #c9a84c; text-shadow: 0 2px 0 #7a5c10; }
+  30%  { color: #e8c96a; text-shadow: 0 2px 0 #9a7c20, 0 0 15px rgba(201,168,76,0.4); }
+  60%  { color: #a07830; text-shadow: 0 2px 0 #5c4208; }
+  100% { color: #c9a84c; text-shadow: 0 2px 0 #7a5c10; }
+}
+
+/* === Pokémon Theme === */
+
+[data-theme="pokemon"] {
+  --bg-dark: #1a0a08;        /* noir rouge sombre — Pokédex */
+  --bg-darker: #110505;      /* encore plus sombre */
+  --bg-card: #cc0000;        /* rouge Pokéball */
+  --accent-yellow: #f8d030;  /* jaune Pikachu */
+  --accent-blue: #1565c0;    /* bleu type Eau */
+  --accent-red: #ff1a1a;     /* rouge vif */
+  --accent-green: #2e7d32;   /* vert type Plante */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="pokemon"] body {
+  background: linear-gradient(160deg, #0a0a1a 0%, #1a0808 45%, #0a1428 100%);
+  background-attachment: fixed;
+}
+
+/* Navbar — Pokédex rouge */
+[data-theme="pokemon"] .navbar {
+  background: linear-gradient(180deg, #cc0000, #aa0000);
+  border-bottom: 3px solid #f8d030;
+  box-shadow: 0 2px 16px rgba(204, 0, 0, 0.4);
+}
+
+[data-theme="pokemon"] .navbar__logo {
+  color: #f8d030;
+  text-shadow: 0 2px 0 #b8960a, 0 0 20px rgba(248, 208, 48, 0.3);
+  animation: poke-shimmer 4s ease-in-out infinite;
+}
+
+[data-theme="pokemon"] .navbar__version {
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(248, 208, 48, 0.7);
+}
+
+[data-theme="pokemon"] .navbar__link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="pokemon"] .navbar__link:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+[data-theme="pokemon"] .navbar__link--active {
+  color: #f8d030;
+  background: rgba(0, 0, 0, 0.25);
+  border-color: #f8d030;
+  box-shadow: 0 0 8px rgba(248, 208, 48, 0.25);
+}
+
+/* Theme picker */
+[data-theme="pokemon"] .theme-picker-btn {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(248, 208, 48, 0.4);
+  color: #f8d030;
+}
+
+[data-theme="pokemon"] .theme-picker-btn:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="pokemon"] .theme-picker-dropdown {
+  background: #1a0a08;
+  border-color: #f8d030;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="pokemon"] .theme-picker-dropdown__title {
+  color: rgba(248, 208, 48, 0.55);
+}
+
+[data-theme="pokemon"] .theme-picker__card {
+  border-color: rgba(248, 208, 48, 0.15);
+  color: #fff;
+  background: rgba(248, 208, 48, 0.04);
+}
+
+[data-theme="pokemon"] .theme-picker__card:hover {
+  background: rgba(248, 208, 48, 0.1);
+  border-color: #f8d030;
+}
+
+[data-theme="pokemon"] .theme-picker__card--active {
+  border-color: #f8d030;
+  background: rgba(248, 208, 48, 0.12);
+}
+
+/* Buttons */
+[data-theme="pokemon"] .btn--primary {
+  background: linear-gradient(180deg, #ffdf36, #f8d030);
+  color: #1a0a08;
+  box-shadow: 0 4px 0 #b8960a, 0 6px 15px rgba(248, 208, 48, 0.25);
+  border-bottom-color: #8a6e00;
+}
+
+[data-theme="pokemon"] .btn--primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 5px 0 #b8960a, 0 8px 20px rgba(248, 208, 48, 0.35);
+}
+
+[data-theme="pokemon"] .btn--primary:active:not(:disabled) {
+  box-shadow: 0 1px 0 #b8960a;
+}
+
+[data-theme="pokemon"] .btn--secondary {
+  background: linear-gradient(180deg, #2a1010, #1a0a08);
+  color: #fff;
+  border-color: rgba(204, 0, 0, 0.4);
+  box-shadow: 0 4px 0 #050202;
+}
+
+[data-theme="pokemon"] .btn--secondary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #361414, #2a1010);
+  box-shadow: 0 5px 0 #050202;
+}
+
+[data-theme="pokemon"] .btn--secondary:active:not(:disabled) {
+  box-shadow: 0 1px 0 #050202;
+}
+
+[data-theme="pokemon"] .btn--outline {
+  border-color: rgba(248, 208, 48, 0.25);
+  color: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme="pokemon"] .btn--outline:hover:not(:disabled) {
+  background: rgba(248, 208, 48, 0.06);
+  border-color: rgba(248, 208, 48, 0.5);
+  color: #fff;
+}
+
+/* Code blocks */
+[data-theme="pokemon"] .code-block {
+  background: #110505;
+  border-color: rgba(248, 208, 48, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="pokemon"] .inline-code {
+  background: rgba(248, 208, 48, 0.12);
+  color: #f8d030;
+}
+
+/* Editor */
+[data-theme="pokemon"] .editor__title {
+  color: #f8d030;
+  text-shadow: 0 2px 0 #b8960a;
+}
+
+[data-theme="pokemon"] .editor__textarea {
+  background: #110505;
+  border-color: rgba(204, 0, 0, 0.3);
+  color: #fff;
+}
+
+[data-theme="pokemon"] .editor__textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="pokemon"] .editor__textarea:focus {
+  border-color: #f8d030;
+  box-shadow: 0 0 12px rgba(248, 208, 48, 0.15);
+}
+
+/* Preview card */
+[data-theme="pokemon"] .preview-card {
+  background: linear-gradient(135deg, #cc0000, #880000);
+  border-color: rgba(248, 208, 48, 0.4);
+}
+
+[data-theme="pokemon"] .preview-card__title { color: #f8d030; }
+
+[data-theme="pokemon"] .preview-card__stat {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Game */
+[data-theme="pokemon"] .game-ready__title {
+  color: #f8d030;
+  text-shadow: 0 3px 0 #b8960a;
+}
+
+[data-theme="pokemon"] .game__progress {
+  background: rgba(204, 0, 0, 0.2);
+}
+
+[data-theme="pokemon"] .game__progress-bar {
+  background: linear-gradient(90deg, #cc0000, #f8d030, #1565c0);
+  box-shadow: 0 0 8px rgba(248, 208, 48, 0.4);
+}
+
+[data-theme="pokemon"] .game__question {
+  background: linear-gradient(135deg, #cc0000, #880000);
+  border-color: rgba(248, 208, 48, 0.25);
+  box-shadow: 0 4px 20px rgba(204, 0, 0, 0.3);
+}
+
+[data-theme="pokemon"] .game__score {
+  color: #f8d030;
+  text-shadow: 0 0 8px rgba(248, 208, 48, 0.4);
+}
+
+/* Answer cards — Pokéball : rouge en haut / blanc en bas simulé */
+[data-theme="pokemon"] .answer-card {
+  background: linear-gradient(135deg, #cc0000, #aa0000);
+  border-color: rgba(248, 208, 48, 0.2);
+  box-shadow: 0 3px 0 #550000;
+}
+
+[data-theme="pokemon"] .answer-card:hover:not(:disabled) {
+  border-color: #f8d030;
+  background: linear-gradient(135deg, #e00000, #bb0000);
+  box-shadow: 0 5px 0 #550000, 0 0 12px rgba(248, 208, 48, 0.2);
+}
+
+[data-theme="pokemon"] .answer-card--selected {
+  border-color: #f8d030;
+  background: linear-gradient(135deg, #ff1a1a, #cc0000);
+  box-shadow: 0 0 16px rgba(248, 208, 48, 0.3);
+}
+
+[data-theme="pokemon"] .answer-card__marker { color: #f8d030; }
+
+[data-theme="pokemon"] .answer-card__icon--correct { color: #86efac; }
+[data-theme="pokemon"] .answer-card__icon--wrong   { color: #fca5a5; }
+
+/* Open answer */
+[data-theme="pokemon"] .open-answer__input {
+  background: #110505;
+  border-color: rgba(204, 0, 0, 0.35);
+  color: #fff;
+}
+
+[data-theme="pokemon"] .open-answer__input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="pokemon"] .open-answer__input:focus {
+  border-color: #f8d030;
+  box-shadow: 0 0 12px rgba(248, 208, 48, 0.15);
+}
+
+[data-theme="pokemon"] .open-answer__expected {
+  background: rgba(248, 208, 48, 0.05);
+  border-left-color: #2e7d32;
+}
+
+/* Feedback */
+[data-theme="pokemon"] .game__feedback--correct {
+  background: rgba(46, 125, 50, 0.2);
+  border-color: rgba(46, 125, 50, 0.5);
+}
+
+[data-theme="pokemon"] .game__feedback--wrong {
+  background: rgba(204, 0, 0, 0.2);
+  border-color: rgba(204, 0, 0, 0.5);
+}
+
+[data-theme="pokemon"] .game__feedback--correct .game__feedback-label { color: #4ade80; }
+[data-theme="pokemon"] .game__feedback--wrong .game__feedback-label   { color: #fca5a5; }
+
+/* Streaks */
+[data-theme="pokemon"] .game__streak--combo {
+  color: #f8d030;
+  background: rgba(248, 208, 48, 0.12);
+  border-color: rgba(248, 208, 48, 0.4);
+  text-shadow: 0 0 8px rgba(248, 208, 48, 0.5);
+}
+
+[data-theme="pokemon"] .game__streak--fire {
+  color: #ff6b35;
+  background: rgba(255, 107, 53, 0.12);
+  border-color: rgba(255, 107, 53, 0.4);
+  text-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+}
+
+[data-theme="pokemon"] .game__points-popup { color: #f8d030; }
+
+[data-theme="pokemon"] .game__points-bonus {
+  color: #93c5fd;
+  text-shadow: 0 0 6px rgba(147, 197, 253, 0.4);
+}
+
+/* Results */
+[data-theme="pokemon"] .results__title {
+  color: #f8d030;
+  text-shadow: 0 3px 0 #b8960a;
+  animation: poke-shimmer 4s ease-in-out infinite;
+}
+
+[data-theme="pokemon"] .results__score-value {
+  color: #f8d030;
+  text-shadow: 0 0 20px rgba(248, 208, 48, 0.4);
+}
+
+[data-theme="pokemon"] .results__stat {
+  background: linear-gradient(135deg, #cc0000, #880000);
+  border-color: rgba(248, 208, 48, 0.15);
+}
+
+[data-theme="pokemon"] .results__stat--correct .results__stat-value { color: #4ade80; }
+[data-theme="pokemon"] .results__stat--wrong .results__stat-value   { color: #fca5a5; }
+[data-theme="pokemon"] .results__stat--percent .results__stat-value { color: #f8d030; }
+[data-theme="pokemon"] .results__stat--streak .results__stat-value  { color: #93c5fd; }
+
+[data-theme="pokemon"] .results__question-points { color: #f8d030; }
+
+[data-theme="pokemon"] .results__question {
+  background: rgba(248, 208, 48, 0.04);
+}
+
+[data-theme="pokemon"] .results__question--correct {
+  background: rgba(46, 125, 50, 0.15);
+  border-left-color: #2e7d32;
+}
+
+[data-theme="pokemon"] .results__question--wrong {
+  background: rgba(204, 0, 0, 0.15);
+  border-left-color: #cc0000;
+}
+
+[data-theme="pokemon"] .results__question-text { color: #fff; }
+[data-theme="pokemon"] .results__breakdown-title { color: rgba(255,255,255,0.6); }
+
+/* Rank progress */
+[data-theme="pokemon"] .rank-progress__bar-track {
+  background: rgba(204, 0, 0, 0.2);
+  border-color: rgba(248, 208, 48, 0.08);
+}
+
+[data-theme="pokemon"] .rank-progress__step-pts {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Home */
+[data-theme="pokemon"] .home__logo {
+  color: #f8d030;
+  text-shadow: 0 4px 0 #b8960a, 0 0 30px rgba(248, 208, 48, 0.25);
+}
+
+[data-theme="pokemon"] .step-card {
+  background: linear-gradient(135deg, #cc0000, #880000);
+  border-color: rgba(248, 208, 48, 0.1);
+}
+
+[data-theme="pokemon"] .step-card__title { color: #fff; }
+[data-theme="pokemon"] .step-card__desc  { color: rgba(255, 255, 255, 0.8); }
+
+[data-theme="pokemon"] .step-card__num {
+  color: #f8d030;
+  background: rgba(248, 208, 48, 0.12);
+  border-color: rgba(248, 208, 48, 0.3);
+}
+
+[data-theme="pokemon"] .step-card__num--blue {
+  color: #fff;
+  background: #1565c0;
+  border-color: #1565c0;
+  box-shadow: 0 3px 0 #0d3c7a;
+}
+
+[data-theme="pokemon"] .home__rules-block {
+  background: #110505;
+  border-color: rgba(204, 0, 0, 0.2);
+}
+
+[data-theme="pokemon"] .home__rules-header:hover {
+  background: rgba(204, 0, 0, 0.08);
+}
+
+[data-theme="pokemon"] .home__rules-arrow { color: #f8d030; }
+
+[data-theme="pokemon"] .home__ai-tip,
+[data-theme="pokemon"] .tutorial__tip {
+  background: linear-gradient(135deg, rgba(248,208,48,0.07), rgba(21,101,192,0.12));
+  border-color: rgba(248, 208, 48, 0.25);
+}
+
+[data-theme="pokemon"] .home__ai-tip-title,
+[data-theme="pokemon"] .tutorial__tip-title { color: #f8d030; }
+
+/* Tutorial */
+[data-theme="pokemon"] .tutorial__title {
+  color: #f8d030;
+  text-shadow: 0 3px 0 #b8960a;
+}
+
+[data-theme="pokemon"] .tutorial__rules-content {
+  background: #110505;
+  border-color: rgba(204, 0, 0, 0.15);
+}
+
+/* KaTeX */
+[data-theme="pokemon"] .katex { color: var(--text-primary); }
+
+/* === Pokémon shimmer animation === */
+
+@keyframes poke-shimmer {
+  0%   { color: #f8d030; text-shadow: 0 2px 0 #b8960a; }
+  30%  { color: #fff;    text-shadow: 0 2px 0 #aaa, 0 0 15px rgba(248,208,48,0.3); }
+  60%  { color: #ff6b35; text-shadow: 0 2px 0 #c04010; }
+  80%  { color: #93c5fd; text-shadow: 0 2px 0 #1565c0; }
+  100% { color: #f8d030; text-shadow: 0 2px 0 #b8960a; }
+}
+
 /* === Unicorn shimmer animation === */
 
 @keyframes unicorn-shimmer {
