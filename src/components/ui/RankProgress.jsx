@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getRankProgress } from '../../lib/scoring'
+import { getRankProgress, RANK_THRESHOLDS } from '../../lib/scoring'
 
 const RANK_ICONS = {
   Bois: '🪵',
@@ -10,23 +10,21 @@ const RANK_ICONS = {
   Légendaire: '🔥',
 }
 
-const RANKS_ASC = [
-  { name: 'Bois',       color: '#8b6914', minPoints: 0 },
-  { name: 'Bronze',     color: '#cd7f32', minPoints: 50 },
-  { name: 'Argent',     color: '#c0c0c0', minPoints: 100 },
-  { name: 'Or',         color: '#ffd700', minPoints: 200 },
-  { name: 'Diamant',    color: '#b9f2ff', minPoints: 350 },
-  { name: 'Légendaire', color: '#ff6f00', minPoints: 500 },
-]
-
-function RankProgress({ score }) {
-  const { current, next, percentage, ptsToNext } = getRankProgress(score)
+function RankProgress({ score, total = 500 }) {
+  const { current, next, percentage, ptsToNext } = getRankProgress(score, total)
   const [fillWidth, setFillWidth] = useState(0)
 
   useEffect(() => {
     const timer = setTimeout(() => setFillWidth(percentage), 120)
     return () => clearTimeout(timer)
   }, [percentage])
+
+  // Rangs avec seuils calculés dynamiquement pour l'affichage
+  const ranks = RANK_THRESHOLDS.map(r => ({
+    ...r,
+    icon: RANK_ICONS[r.name],
+    minPoints: Math.round(total * r.pct),
+  }))
 
   const message = !next
     ? 'Rang maximum atteint ! 🔥'
@@ -35,7 +33,7 @@ function RankProgress({ score }) {
   return (
     <div className="rank-progress">
       <div className="rank-progress__steps">
-        {RANKS_ASC.map(rank => {
+        {ranks.map(rank => {
           const reached = score >= rank.minPoints
           const isCurrent = rank.name === current.name
           return (
@@ -48,9 +46,7 @@ function RankProgress({ score }) {
               ].join(' ')}
               style={reached ? { color: rank.color } : {}}
             >
-              <span className="rank-progress__step-icon">
-                {RANK_ICONS[rank.name]}
-              </span>
+              <span className="rank-progress__step-icon">{rank.icon}</span>
               <span className="rank-progress__step-pts">{rank.minPoints}</span>
             </div>
           )

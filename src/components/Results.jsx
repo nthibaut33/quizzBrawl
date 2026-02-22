@@ -47,7 +47,7 @@ function Results({ quiz, results, score, onReplay }) {
   const total = quiz.questions.length
   const correctCount = results.filter(r => r.correct).length
   const wrongCount = total - correctCount
-  const rank = getRank(score)
+  const rank = getRank(score, quiz.totalPoints)
   const percentage = Math.round((correctCount / total) * 100)
 
   const totalPoints = useMemo(() => {
@@ -88,7 +88,7 @@ function Results({ quiz, results, score, onReplay }) {
       <RankBadge rank={rank} animated />
 
       {/* Barre de progression des rangs */}
-      <RankProgress score={totalPoints} />
+      <RankProgress score={totalPoints} total={quiz.totalPoints} />
 
       {/* Stats */}
       <div className="results__stats">

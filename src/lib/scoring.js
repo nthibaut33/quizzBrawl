@@ -4,6 +4,19 @@
  */
 
 /**
+ * Seuils des rangs exprimés en pourcentage du total du quiz.
+ * Ordre croissant (Bois → Légendaire).
+ */
+export const RANK_THRESHOLDS = [
+  { name: 'Bois',       nameEn: 'Wood',      color: '#8b6914', pct: 0.0 },
+  { name: 'Bronze',     nameEn: 'Bronze',     color: '#cd7f32', pct: 0.1 },
+  { name: 'Argent',     nameEn: 'Silver',     color: '#c0c0c0', pct: 0.2 },
+  { name: 'Or',         nameEn: 'Gold',       color: '#ffd700', pct: 0.4 },
+  { name: 'Diamant',    nameEn: 'Diamond',    color: '#b9f2ff', pct: 0.7 },
+  { name: 'Légendaire', nameEn: 'Legendary',  color: '#ff6f00', pct: 1.0 },
+]
+
+/**
  * Calcule les points gagnés pour une réponse.
  * @param {boolean} correct - La réponse est-elle correcte ?
  * @param {number} basePoints - Points de base de la question (défaut 10)
@@ -37,40 +50,32 @@ export function getStreakLabel(streak) {
 }
 
 /**
- * Détermine le rang en fonction du score total.
+ * Détermine le rang en fonction du score et du total du quiz.
  * @param {number} score
- * @returns {{ name: string, nameEn: string, color: string, minPoints: number }}
+ * @param {number} total - Total de points du quiz (défaut 500)
+ * @returns {{ name: string, nameEn: string, color: string, pct: number, minPoints: number }}
  */
-export function getRank(score) {
-  const ranks = [
-    { name: 'Légendaire', nameEn: 'Legendary', color: '#ff6f00', minPoints: 500 },
-    { name: 'Diamant',    nameEn: 'Diamond',   color: '#b9f2ff', minPoints: 350 },
-    { name: 'Or',         nameEn: 'Gold',       color: '#ffd700', minPoints: 200 },
-    { name: 'Argent',     nameEn: 'Silver',     color: '#c0c0c0', minPoints: 100 },
-    { name: 'Bronze',     nameEn: 'Bronze',     color: '#cd7f32', minPoints: 50 },
-    { name: 'Bois',       nameEn: 'Wood',       color: '#8b6914', minPoints: 0 },
-  ]
-
-  for (const rank of ranks) {
-    if (score >= rank.minPoints) return rank
+export function getRank(score, total = 500) {
+  // Itération décroissante : on retourne le rang le plus haut atteint
+  for (let i = RANK_THRESHOLDS.length - 1; i >= 0; i--) {
+    const rank = RANK_THRESHOLDS[i]
+    const minPoints = Math.round(total * rank.pct)
+    if (score >= minPoints) {
+      return { ...rank, minPoints }
+    }
   }
-  return ranks[ranks.length - 1]
+  const bois = RANK_THRESHOLDS[0]
+  return { ...bois, minPoints: 0 }
 }
 
 /**
  * Retourne la progression du joueur dans l'échelle des rangs.
  * @param {number} score
+ * @param {number} total - Total de points du quiz (défaut 500)
  * @returns {{ current: object, next: object|null, percentage: number, ptsToNext: number }}
  */
-export function getRankProgress(score) {
-  const ranks = [
-    { name: 'Bois',       nameEn: 'Wood',      color: '#8b6914', minPoints: 0 },
-    { name: 'Bronze',     nameEn: 'Bronze',     color: '#cd7f32', minPoints: 50 },
-    { name: 'Argent',     nameEn: 'Silver',     color: '#c0c0c0', minPoints: 100 },
-    { name: 'Or',         nameEn: 'Gold',       color: '#ffd700', minPoints: 200 },
-    { name: 'Diamant',    nameEn: 'Diamond',    color: '#b9f2ff', minPoints: 350 },
-    { name: 'Légendaire', nameEn: 'Legendary',  color: '#ff6f00', minPoints: 500 },
-  ]
+export function getRankProgress(score, total = 500) {
+  const ranks = RANK_THRESHOLDS.map(r => ({ ...r, minPoints: Math.round(total * r.pct) }))
 
   let currentIdx = 0
   for (let i = 0; i < ranks.length; i++) {
@@ -84,7 +89,7 @@ export function getRankProgress(score) {
 
   const range = next.minPoints - current.minPoints
   const progress = score - current.minPoints
-  const percentage = Math.min(100, Math.round((progress / range) * 100))
+  const percentage = range > 0 ? Math.min(100, Math.round((progress / range) * 100)) : 100
 
   return { current, next, percentage, ptsToNext: next.minPoints - score }
 }

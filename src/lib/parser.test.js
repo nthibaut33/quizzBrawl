@@ -284,6 +284,39 @@ describe('parseQuiz', () => {
     expect(result.questions[1].expected).toBe('3')
   })
 
+  it('calcule totalPoints comme somme des points des questions', () => {
+    const md = `# Quiz
+## Question 1 ?
+- [x] Oui
+- [ ] Non
+> Points: 30
+
+## Question 2 ?
+- [x] Vrai
+- [ ] Faux
+> Points: 70
+
+## Question 3 ?
+= réponse
+> Points: 100`
+
+    const result = parseQuiz(md)
+    expect(result.totalPoints).toBe(200)
+  })
+
+  it('totalPoints utilise le défaut (10) si Points absent', () => {
+    const md = `# Quiz
+## Question 1 ?
+- [x] Oui
+- [ ] Non
+
+## Question 2 ?
+= réponse`
+
+    const result = parseQuiz(md)
+    expect(result.totalPoints).toBe(20) // 10 + 10 par défaut
+  })
+
   it('ignore les lignes vides et le contenu non structuré', () => {
     const md = `# Quiz
 

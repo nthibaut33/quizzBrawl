@@ -1,40 +1,20 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { parseQuiz } from '../lib/parser'
 import MathText from './ui/MathText'
 
-const TEMPLATE = `# Culture Générale
-> Un quiz pour tester tes connaissances !
-> Difficulté: ★★☆
-
-## Question 1 : Quelle est la capitale de la France ?
-- [ ] Londres
-- [ ] Berlin
-- [x] Paris
-- [ ] Madrid
-> Explication: Paris est la capitale de la France depuis des siècles.
-> Points: 10
-> Temps: 15
-
-## Question 2 : Quels langages sont interprétés ?
-- [x] Python
-- [ ] C
-- [x] JavaScript
-- [ ] Rust
-> Explication: Python et JavaScript sont interprétés, C et Rust sont compilés.
-> Points: 20
-> Temps: 20
-
-## Question 3 : Combien font 12 x 7 ?
-= 84
-> Explication: 12 x 7 = 84
-> Points: 15
-> Temps: 10`
-
 function Editor() {
   const [markdown, setMarkdown] = useState('')
   const [showPreview, setShowPreview] = useState(false)
+  const [exampleTemplate, setExampleTemplate] = useState(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch('./example.md')
+      .then(r => r.text())
+      .then(text => setExampleTemplate(text))
+      .catch(() => {})
+  }, [])
 
   const parsed = useMemo(() => parseQuiz(markdown), [markdown])
   const hasErrors = !!parsed.errors
@@ -54,7 +34,8 @@ function Editor() {
         <div className="editor__actions">
           <button
             className="btn btn--outline"
-            onClick={() => setMarkdown(TEMPLATE)}
+            onClick={() => exampleTemplate && setMarkdown(exampleTemplate)}
+            disabled={!exampleTemplate}
           >
             Quiz exemple
           </button>

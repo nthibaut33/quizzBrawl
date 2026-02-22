@@ -130,5 +130,6 @@ export function parseQuiz(markdown) {
     return { errors }
   }
 
-  return { title, description, questions }
+  const totalPoints = questions.reduce((sum, q) => sum + q.points, 0)
+  return { title, description, questions, totalPoints }
 }

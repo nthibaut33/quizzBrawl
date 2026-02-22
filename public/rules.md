@@ -86,16 +86,29 @@ Après les réponses, tu peux ajouter des métadonnées en blockquote (`>`). Tou
 
 ### Répartition des points
 
-Le total des points d'un quiz est toujours de **500 points**. Les points doivent être répartis entre les questions en fonction de leur difficulté relative :
+Le total des points d'un quiz est **configurable** (par défaut **120 points** si non précisé). Les points sont répartis entre les questions en fonction de leur difficulté relative :
 
-| Difficulté de la question | Points suggérés         |
-|---------------------------|-------------------------|
-| Facile                    | ~30 pts                 |
-| Moyenne                   | ~50 pts                 |
-| Difficile                 | ~70 pts                 |
+| Difficulté de la question | Proportion suggérée | Exemple (total 500) | Exemple (total 300) |
+|---------------------------|---------------------|---------------------|---------------------|
+| Facile                    | ~6 % du total       | ~30 pts             | ~18 pts             |
+| Moyenne                   | ~10 % du total      | ~50 pts             | ~30 pts             |
+| Difficile                 | ~14 % du total      | ~70 pts             | ~42 pts             |
 
-- La somme de tous les `> Points: N` du quiz **doit être exactement 500**.
+- La somme de tous les `> Points: N` du quiz **doit être exactement égale au total défini**.
 - Ajuste les valeurs individuelles pour atteindre ce total tout en respectant la proportionnalité selon la difficulté.
+
+### Rangs et seuils (relatifs au total)
+
+Les rangs atteignables s'adaptent automatiquement au total du quiz selon ces pourcentages :
+
+| Rang        | Seuil        | Exemple (total 500) | Exemple (total 300) |
+|-------------|--------------|---------------------|---------------------|
+| 🪵 Bois      | 0 %          | 0 pts               | 0 pts               |
+| 🥉 Bronze    | 10 % du total| 50 pts              | 30 pts              |
+| 🥈 Argent    | 20 % du total| 100 pts             | 60 pts              |
+| 🥇 Or        | 40 % du total| 200 pts             | 120 pts             |
+| 💎 Diamant   | 70 % du total| 350 pts             | 210 pts             |
+| 🔥 Légendaire| 100 % du total| 500 pts            | 300 pts             |
 
 Exemple complet :
 
@@ -153,7 +166,7 @@ Tu peux inclure des formules mathématiques dans les questions, les réponses et
 2. **Ne mélange pas les types dans une même question.** Une question utilise soit des `- [ ]`/`- [x]`, soit `= réponse`, jamais les deux.
 3. **Les numéros de question doivent être séquentiels** : 1, 2, 3…
 4. **Propose entre 2 et 6 réponses** pour les questions à choix (unique ou multiples).
-5. **Le total des points doit être exactement 500.** Répartis les points entre les questions proportionnellement à leur difficulté (facile ~30 pts, moyenne ~50 pts, difficile ~70 pts). Ajuste pour que la somme fasse 500.
+5. **Le total des points doit être exactement égal au total défini** (500 par défaut, ou la valeur demandée par l'utilisateur). Répartis les points proportionnellement à la difficulté (facile ~6 %, moyenne ~10 %, difficile ~14 % du total). Ajuste pour que la somme soit exacte.
 6. **La première question (Question 1) doit toujours être très simple** et rapporter moins de 50 points. Elle sert d'échauffement pour le joueur.
 7. **Fournis une explication** pour chaque question quand c'est pertinent — cela enrichit l'expérience d'apprentissage.
 8. **Varie les types de questions** dans un même quiz pour maintenir l'intérêt du joueur.
@@ -202,8 +215,9 @@ Tu peux inclure des formules mathématiques dans les questions, les réponses et
 
 Quand on te demande de générer un quiz :
 
-1. **Demande ou identifie** : le sujet, le nombre de questions souhaité, et le niveau de difficulté.
-2. **Produis uniquement le bloc Markdown** — pas de texte explicatif avant ou après, sauf si demandé.
-3. **Respecte strictement le format** décrit ci-dessus pour que le parseur QuizzBrawl puisse interpréter ton quiz sans erreur.
-4. **Vérifie la cohérence** : pas de doublons, les bonnes réponses sont correctes, les explications sont exactes.
-5. **Ta réponse doit TOUJOURS être au format Markdown, présentée dans un unique bloc de code** (délimité par des triples backticks ` ```markdown ... ``` `) prêt à être copié-collé. Ne fournis aucun texte en dehors de ce bloc de code.
+1. **Détermine le total de points** : si l'utilisateur ne l'a pas précisé dans sa demande, **demande-lui combien de points doit valoir le quiz au total** (propose **500** par défaut). Ce total conditionne directement les rangs atteignables (🔥 Légendaire = 100 % du total, 💎 Diamant = 70 %, 🥇 Or = 40 %, 🥈 Argent = 20 %, 🥉 Bronze = 10 %) et le barème par question.
+2. **Demande ou identifie** : le sujet, le nombre de questions souhaité, et le niveau de difficulté.
+3. **Produis uniquement le bloc Markdown** — pas de texte explicatif avant ou après, sauf si demandé.
+4. **Respecte strictement le format** décrit ci-dessus pour que le parseur QuizzBrawl puisse interpréter ton quiz sans erreur.
+5. **Vérifie la cohérence** : pas de doublons, les bonnes réponses sont correctes, les explications sont exactes.
+6. **Ta réponse doit TOUJOURS être au format Markdown, présentée dans un unique bloc de code** (délimité par des triples backticks ` ```markdown ... ``` `) prêt à être copié-collé. Ne fournis aucun texte en dehors de ce bloc de code.

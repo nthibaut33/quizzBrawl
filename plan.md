@@ -400,40 +400,88 @@ Bois : 0 pts | Bronze : 50 | Argent : 100 | Or : 200 | Diamant : 350 | Légendai
 **Livrables :**
 
 #### Composant (`components/ui/RankProgress.jsx`)
-- [ ] Composant `RankProgress` : reçoit `score` en prop
-- [ ] Liste ordonnée de tous les rangs avec leur seuil, icône et couleur (extraite de `scoring.js`)
-- [ ] Calcul du rang courant et du rang suivant à partir du score
-- [ ] Barre de progression horizontale : `width = (score - seuilActuel) / (seuilSuivant - seuilActuel) * 100%`
+- [x] Composant `RankProgress` : reçoit `score` en prop
+- [x] Liste ordonnée de tous les rangs avec leur seuil, icône et couleur (extraite de `scoring.js`)
+- [x] Calcul du rang courant et du rang suivant à partir du score
+- [x] Barre de progression horizontale : `width = (score - seuilActuel) / (seuilSuivant - seuilActuel) * 100%`
   - Couleur de remplissage = couleur du rang courant
   - Animation CSS de remplissage au montage (`rank-progress-fill`)
-- [ ] Étapes (points) affichées sous la barre : icône + seuil pour chaque rang
+- [x] Étapes (points) affichées sous la barre : icône + seuil pour chaque rang
   - Rang atteint : icône + couleur vive, opacité 1
   - Rang non atteint : icône grisée, opacité 0.4
   - Rang courant : icône mise en valeur (scale 1.3, glow)
-- [ ] Message contextuel sous la barre :
+- [x] Message contextuel sous la barre :
   - Si rang < Légendaire : `"encore X pts pour <RangSuivant>"` (couleur du rang suivant)
   - Si rang = Légendaire : `"Rang maximum atteint ! 🔥"`
 
 #### Intégration (`components/Results.jsx`)
-- [ ] Importer et afficher `<RankProgress score={totalPoints} />` entre le `RankBadge` et les stats
+- [x] Importer et afficher `<RankProgress score={totalPoints} />` entre le `RankBadge` et les stats
 
 #### Styles (`index.css`)
-- [ ] `.rank-progress` : conteneur centré, largeur max 500px
-- [ ] `.rank-progress__bar-track` : fond sombre, bordure arrondie, hauteur 10px
-- [ ] `.rank-progress__bar-fill` : remplissage animé, `transition: width 1s ease-out`
-- [ ] `.rank-progress__steps` : flex row, justify-content space-between
-- [ ] `.rank-progress__step` : flex column, icône + seuil, taille 0.75rem
-- [ ] `.rank-progress__step--current` : scale 1.3, drop-shadow coloré
-- [ ] `.rank-progress__step--reached` : opacité 1
-- [ ] `.rank-progress__step--locked` : opacité 0.35, filtre grayscale
-- [ ] `.rank-progress__message` : texte centré, `font-family: 'Bungee'`, couleur dynamique via style inline
-- [ ] Keyframes `rank-progress-fill` : `from { width: 0 }` → `to { width: var(--fill-width) }`
+- [x] `.rank-progress` : conteneur centré, largeur max 500px
+- [x] `.rank-progress__bar-track` : fond sombre, bordure arrondie, hauteur 10px
+- [x] `.rank-progress__bar-fill` : remplissage animé, `transition: width 1s ease-out`
+- [x] `.rank-progress__steps` : flex row, justify-content space-between
+- [x] `.rank-progress__step` : flex column, icône + seuil, taille 0.75rem
+- [x] `.rank-progress__step--current` : scale 1.3, drop-shadow coloré
+- [x] `.rank-progress__step--reached` : opacité 1
+- [x] `.rank-progress__step--locked` : opacité 0.35, filtre grayscale
+- [x] `.rank-progress__message` : texte centré, `font-family: 'Bungee'`, couleur dynamique via style inline
+- [x] Keyframes `rank-progress-fill` : `from { width: 0 }` → `to { width: var(--fill-width) }`
 
 #### Tests (`lib/scoring.test.js`)
-- [ ] Vérifier que `getRank()` retourne les bons objets à chaque palier (0, 49, 50, 99, 100, 199, 200, 349, 350, 499, 500, 999)
-- [ ] Tester le calcul du pourcentage de progression entre deux rangs
+- [x] Vérifier que `getRank()` retourne les bons objets à chaque palier (0, 49, 50, 99, 100, 199, 200, 349, 350, 499, 500, 999)
+- [x] Tester le calcul du pourcentage de progression entre deux rangs
 
 **Critère de validation :** Sur l'écran de résultats, une barre de progression colorée montre le rang atteint, les rangs débloqués/verrouillés, et indique combien de points manquent pour le rang suivant.
+
+---
+
+### STEP 13 — Modèle de Points Variable
+**Objectif :** Adapter les rangs et le barème au total de points réel du quiz (somme des `> Points: N` des questions), au lieu d'un total fixe de 500. Un quiz à 300 pts aura ses seuils de rang à 30/60/120/210/300, un quiz à 1000 pts à 100/200/400/700/1000.
+
+**Principe :**
+Les rangs sont définis comme des **pourcentages du total du quiz** :
+
+| Rang        | Seuil          |
+|-------------|----------------|
+| 🪵 Bois      | 0 %            |
+| 🥉 Bronze    | 10 % du total  |
+| 🥈 Argent    | 20 % du total  |
+| 🥇 Or        | 40 % du total  |
+| 💎 Diamant   | 70 % du total  |
+| 🔥 Légendaire| 100 % du total |
+
+**Livrables :**
+
+#### Parseur (`lib/parser.js`)
+- [ ] Calculer et exposer `quiz.totalPoints` : somme de tous les `points` des questions après parsing
+
+#### Logique (`lib/scoring.js`)
+- [ ] `getRank(score, total)` : accepte un paramètre `total` (défaut `500`) — calcule les seuils dynamiquement (`Math.round(total * pct)`)
+- [ ] `getRankProgress(score, total)` : idem — les seuils des 6 rangs sont proportionnels à `total`
+- [ ] Rétrocompatibilité : `total` facultatif, valeur par défaut `500` → les tests existants passent sans modification
+
+#### Hook (`hooks/useGameEngine.js`)
+- [ ] Passer `quiz.totalPoints` à `getRank()` et `getRankProgress()` lors du calcul final
+
+#### UI (`components/Results.jsx`)
+- [ ] Passer `quiz.totalPoints` à `<RankProgress score={totalPoints} total={quiz.totalPoints} />`
+- [ ] Passer `quiz.totalPoints` à `getRank(score, quiz.totalPoints)` pour le `RankBadge`
+
+#### UI (`components/ui/RankProgress.jsx`)
+- [ ] Accepter une prop `total` (défaut `500`) et la passer à `getRankProgress(score, total)`
+- [ ] Afficher les seuils recalculés dans `.rank-progress__step-pts`
+
+#### Tests (`lib/scoring.test.js`)
+- [ ] Tests `getRank(score, total)` avec `total = 300` : vérifie les 6 paliers recalculés
+- [ ] Tests `getRankProgress(score, total)` avec `total = 1000` : vérifie `percentage` et `ptsToNext`
+- [ ] Tests rétrocompatibilité : `getRank(500)` sans second argument → Légendaire
+
+#### Tests (`lib/parser.test.js`)
+- [ ] Vérifier que `parseQuiz(markdown).totalPoints` correspond à la somme des points des questions
+
+**Critère de validation :** Un quiz de 300 pts atteint le rang Légendaire à 300 pts (pas à 500). Les seuils affichés dans `RankProgress` reflètent le total réel du quiz. Tous les tests existants passent.
 
 ---
 

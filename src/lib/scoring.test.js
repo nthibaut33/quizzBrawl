@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { calculatePoints, getStreakMultiplier, getStreakLabel, getRank, getRankProgress, processAnswer } from './scoring'
+import { calculatePoints, getStreakMultiplier, getStreakLabel, getRank, getRankProgress, processAnswer, RANK_THRESHOLDS } from './scoring'
 
 describe('calculatePoints', () => {
   it('retourne les points de base si correct', () => {
@@ -95,6 +95,57 @@ describe('getRank', () => {
   })
 })
 
+describe('RANK_THRESHOLDS', () => {
+  it('contient 6 rangs dans l\'ordre croissant', () => {
+    expect(RANK_THRESHOLDS).toHaveLength(6)
+    expect(RANK_THRESHOLDS[0].name).toBe('Bois')
+    expect(RANK_THRESHOLDS[5].name).toBe('Légendaire')
+  })
+
+  it('les pourcentages sont corrects', () => {
+    expect(RANK_THRESHOLDS[0].pct).toBe(0.0)
+    expect(RANK_THRESHOLDS[1].pct).toBe(0.1)
+    expect(RANK_THRESHOLDS[2].pct).toBe(0.2)
+    expect(RANK_THRESHOLDS[3].pct).toBe(0.4)
+    expect(RANK_THRESHOLDS[4].pct).toBe(0.7)
+    expect(RANK_THRESHOLDS[5].pct).toBe(1.0)
+  })
+})
+
+describe('getRank — total variable', () => {
+  it('total 300 : seuils recalculés correctement', () => {
+    expect(getRank(0, 300).name).toBe('Bois')
+    expect(getRank(29, 300).name).toBe('Bois')
+    expect(getRank(30, 300).name).toBe('Bronze')   // 300 * 0.1
+    expect(getRank(59, 300).name).toBe('Bronze')
+    expect(getRank(60, 300).name).toBe('Argent')   // 300 * 0.2
+    expect(getRank(119, 300).name).toBe('Argent')
+    expect(getRank(120, 300).name).toBe('Or')      // 300 * 0.4
+    expect(getRank(209, 300).name).toBe('Or')
+    expect(getRank(210, 300).name).toBe('Diamant') // 300 * 0.7
+    expect(getRank(299, 300).name).toBe('Diamant')
+    expect(getRank(300, 300).name).toBe('Légendaire') // 300 * 1.0
+    expect(getRank(999, 300).name).toBe('Légendaire')
+  })
+
+  it('total 1000 : Légendaire à 1000 pts', () => {
+    expect(getRank(999, 1000).name).toBe('Diamant')
+    expect(getRank(1000, 1000).name).toBe('Légendaire')
+  })
+
+  it('rétrocompatibilité : getRank(score) sans total fonctionne', () => {
+    expect(getRank(500).name).toBe('Légendaire')
+    expect(getRank(0).name).toBe('Bois')
+    expect(getRank(200).name).toBe('Or')
+  })
+
+  it('getRank retourne minPoints calculé', () => {
+    expect(getRank(30, 300).minPoints).toBe(30)
+    expect(getRank(0, 300).minPoints).toBe(0)
+    expect(getRank(300, 300).minPoints).toBe(300)
+  })
+})
+
 describe('getRankProgress', () => {
   it('score 0 : Bois, 0%, 50 pts pour Bronze', () => {
     const p = getRankProgress(0)
@@ -162,6 +213,36 @@ describe('getRankProgress', () => {
     expect(p.current.name).toBe('Légendaire')
     expect(p.next).toBeNull()
     expect(p.percentage).toBe(100)
+  })
+
+  it('total 300 : seuils recalculés', () => {
+    const p = getRankProgress(0, 300)
+    expect(p.current.name).toBe('Bois')
+    expect(p.next.name).toBe('Bronze')
+    expect(p.next.minPoints).toBe(30)
+    expect(p.ptsToNext).toBe(30)
+  })
+
+  it('total 300, score 150 : Or, 50% vers Diamant', () => {
+    const p = getRankProgress(150, 300)
+    expect(p.current.name).toBe('Or')   // 300*0.4 = 120
+    expect(p.next.name).toBe('Diamant') // 300*0.7 = 210
+    expect(p.percentage).toBe(Math.round((150 - 120) / (210 - 120) * 100))
+    expect(p.ptsToNext).toBe(60)
+  })
+
+  it('total 1000 : Légendaire à 1000', () => {
+    const p = getRankProgress(1000, 1000)
+    expect(p.current.name).toBe('Légendaire')
+    expect(p.next).toBeNull()
+    expect(p.percentage).toBe(100)
+  })
+
+  it('rétrocompatibilité : getRankProgress(score) sans total', () => {
+    const p = getRankProgress(0)
+    expect(p.next.minPoints).toBe(50)
+    const p2 = getRankProgress(500)
+    expect(p2.current.name).toBe('Légendaire')
   })
 })
 
