@@ -485,6 +485,52 @@ Les rangs sont définis comme des **pourcentages du total du quiz** :
 
 ---
 
+### STEP 14 — Système de Thèmes
+**Objectif :** Permettre à l'utilisateur de changer le thème visuel de l'application. Deux thèmes disponibles : le thème par défaut **Brawl Stars** (sombre, jaune, bleu) et un thème alternatif **Licorne Rose Arc-en-Ciel** (pastel, dégradés multicolores, paillettes).
+
+**Thèmes disponibles :**
+
+| Thème | Palette | Ambiance |
+|---|---|---|
+| 🎮 Brawl Stars (défaut) | Fond `#1a1a2e`, jaune `#e6b800`, bleu `#0f3460`, rouge `#e94560` | Sombre, combat, trophées |
+| 🦄 Licorne Rose Arc-en-Ciel | Fond `#fce4f3`, rose `#ff6eb4`, violet `#c084fc`, cyan `#67e8f9`, mint `#86efac` | Pastel, paillettes, arc-en-ciel |
+
+**Livrables :**
+
+#### Logique (`lib/themes.js`)
+- [x] Objet `THEMES` : dictionnaire des deux thèmes (id, label, emoji, 3 couleurs d'aperçu)
+- [x] Thème `brawl` : Brawl Stars (fond sombre, jaune, bleu)
+- [x] Thème `unicorn` : Licorne Arc-en-Ciel (rose/violet/cyan pastel, fond clair)
+
+#### Contexte React (`hooks/useTheme.jsx`)
+- [x] `ThemeProvider` + hook `useTheme()` : retourne `{ theme, setTheme, themes }`
+- [x] Persistance dans `localStorage` (clé `quizzbrawl-theme`)
+- [x] Application via `document.documentElement.setAttribute('data-theme', id)` — instantané
+- [x] Initialisation synchrone dans `main.jsx` avant le premier render React (évite le flash)
+
+#### Composant UI (`components/ui/ThemePicker.jsx`)
+- [x] Dropdown avec cartes par thème : emoji + nom + 3 swatches colorés
+- [x] Thème actif : bordure mise en valeur + coche ✓
+- [x] Fermeture au clic extérieur (click-outside via `useEffect` dans Layout)
+
+#### Intégration (`components/Layout.jsx`)
+- [x] Bouton 🎨 dans la navbar ouvre le dropdown ThemePicker
+- [x] Changement de thème instantané sans reload
+
+#### Styles (`index.css`)
+- [x] Overrides CSS via `[data-theme="unicorn"]` : fond pastel, couleurs rose/violet, texte sombre
+- [x] Navbar, boutons, cards, answer-cards, streaks, résultats — tous adaptés
+- [x] Keyframes `unicorn-shimmer` sur le logo navbar et le titre résultats
+- [x] Corps de page avec dégradé arc-en-ciel fixe (rose → violet → bleu clair)
+- [x] Styles du composant ThemePicker (`.theme-picker-btn`, `.theme-picker-dropdown`, etc.)
+
+#### Tests
+- [x] 94 tests existants passent sans modification
+
+**Critère de validation :** Un bouton 🎨 dans la navbar permet de basculer entre le thème Brawl Stars et le thème Licorne Rose Arc-en-Ciel. Le changement est instantané, persisté au rechargement, et toutes les vues (Home, Editor, Game, Results) adoptent le nouveau thème. Le bundle `dist/` fonctionne en `file://`.
+
+---
+
 ## Règles de Développement
 
 1. **Chaque STEP est autonome** : l'app fonctionne (dev + build) à la fin de chaque étape
