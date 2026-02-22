@@ -1118,6 +1118,77 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* === Rank Progress === */
+
+.rank-progress {
+  width: 100%;
+  max-width: 500px;
+  margin: 0.25rem auto 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rank-progress__steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 0.1rem;
+}
+
+.rank-progress__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  transition: transform 0.4s ease;
+}
+
+.rank-progress__step--current {
+  transform: scale(1.35);
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.rank-progress__step--locked {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.rank-progress__step-icon { font-size: 1.4rem; }
+.rank-progress__step--current .rank-progress__step-icon { font-size: 1.5rem; }
+
+.rank-progress__step-pts {
+  font-family: 'Bungee', cursive;
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+}
+
+.rank-progress__step--reached .rank-progress__step-pts { color: inherit; }
+
+.rank-progress__bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rank-progress__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1s ease-out;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.rank-progress__message {
+  text-align: center;
+  font-family: 'Bungee', cursive;
+  font-size: 0.8rem;
+  margin: 0;
+  text-shadow: 0 0 10px currentColor;
+}
+
 /* === Results Stats === */
 
 .results__stats { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin: 0.5rem 0; }
@@ -1254,6 +1325,11 @@ body {
   .rank-badge__icon { font-size: 2.5rem; }
   .rank-badge__name { font-size: 1.3rem; }
   .results__stat { min-width: 70px; padding: 0.5rem 0.7rem; }
+  .rank-progress { max-width: 100%; }
+  .rank-progress__step-icon { font-size: 1.1rem; }
+  .rank-progress__step--current .rank-progress__step-icon { font-size: 1.2rem; }
+  .rank-progress__step-pts { font-size: 0.5rem; }
+  .rank-progress__message { font-size: 0.7rem; }
 }
 
 /* === KaTeX Dark Theme Overrides === */

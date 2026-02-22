@@ -382,6 +382,61 @@ quizzbrawl/
 
 ---
 
+### STEP 12 — Progression des Rangs sur l'Écran de Résultats
+**Objectif :** Afficher une barre de progression visuelle entre les rangs sur la page de résultats, pour que le joueur sache où il en est dans l'échelle des rangs et combien de points le séparent du rang suivant.
+
+**Maquette (à insérer entre le RankBadge et les stats) :**
+```
+  🪵 Bois   🥉 Bronze   🥈 Argent   🥇 Or   💎 Diamant   🔥 Légendaire
+  ●━━━━━━━━━●━━━━━━━━━━●━━━━━━━━━━●━━━━━━━━━━●━━━━━━━━━━●
+             ↑ 73 pts                        "encore 127 pts pour Or"
+```
+
+**Paliers de référence (`lib/scoring.js`) :**
+```
+Bois : 0 pts | Bronze : 50 | Argent : 100 | Or : 200 | Diamant : 350 | Légendaire : 500
+```
+
+**Livrables :**
+
+#### Composant (`components/ui/RankProgress.jsx`)
+- [ ] Composant `RankProgress` : reçoit `score` en prop
+- [ ] Liste ordonnée de tous les rangs avec leur seuil, icône et couleur (extraite de `scoring.js`)
+- [ ] Calcul du rang courant et du rang suivant à partir du score
+- [ ] Barre de progression horizontale : `width = (score - seuilActuel) / (seuilSuivant - seuilActuel) * 100%`
+  - Couleur de remplissage = couleur du rang courant
+  - Animation CSS de remplissage au montage (`rank-progress-fill`)
+- [ ] Étapes (points) affichées sous la barre : icône + seuil pour chaque rang
+  - Rang atteint : icône + couleur vive, opacité 1
+  - Rang non atteint : icône grisée, opacité 0.4
+  - Rang courant : icône mise en valeur (scale 1.3, glow)
+- [ ] Message contextuel sous la barre :
+  - Si rang < Légendaire : `"encore X pts pour <RangSuivant>"` (couleur du rang suivant)
+  - Si rang = Légendaire : `"Rang maximum atteint ! 🔥"`
+
+#### Intégration (`components/Results.jsx`)
+- [ ] Importer et afficher `<RankProgress score={totalPoints} />` entre le `RankBadge` et les stats
+
+#### Styles (`index.css`)
+- [ ] `.rank-progress` : conteneur centré, largeur max 500px
+- [ ] `.rank-progress__bar-track` : fond sombre, bordure arrondie, hauteur 10px
+- [ ] `.rank-progress__bar-fill` : remplissage animé, `transition: width 1s ease-out`
+- [ ] `.rank-progress__steps` : flex row, justify-content space-between
+- [ ] `.rank-progress__step` : flex column, icône + seuil, taille 0.75rem
+- [ ] `.rank-progress__step--current` : scale 1.3, drop-shadow coloré
+- [ ] `.rank-progress__step--reached` : opacité 1
+- [ ] `.rank-progress__step--locked` : opacité 0.35, filtre grayscale
+- [ ] `.rank-progress__message` : texte centré, `font-family: 'Bungee'`, couleur dynamique via style inline
+- [ ] Keyframes `rank-progress-fill` : `from { width: 0 }` → `to { width: var(--fill-width) }`
+
+#### Tests (`lib/scoring.test.js`)
+- [ ] Vérifier que `getRank()` retourne les bons objets à chaque palier (0, 49, 50, 99, 100, 199, 200, 349, 350, 499, 500, 999)
+- [ ] Tester le calcul du pourcentage de progression entre deux rangs
+
+**Critère de validation :** Sur l'écran de résultats, une barre de progression colorée montre le rang atteint, les rangs débloqués/verrouillés, et indique combien de points manquent pour le rang suivant.
+
+---
+
 ## Règles de Développement
 
 1. **Chaque STEP est autonome** : l'app fonctionne (dev + build) à la fin de chaque étape

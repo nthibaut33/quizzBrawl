@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getRank } from '../lib/scoring'
 import RankBadge from './ui/RankBadge'
+import RankProgress from './ui/RankProgress'
 import MathText from './ui/MathText'
 
 const CONFETTI_COLORS = ['#e6b800', '#e94560', '#2ecc71', '#b9f2ff', '#ff6b35', '#ffd700']
@@ -85,6 +86,9 @@ function Results({ quiz, results, score, onReplay }) {
 
       {/* Rank badge avec animation */}
       <RankBadge rank={rank} animated />
+
+      {/* Barre de progression des rangs */}
+      <RankProgress score={totalPoints} />
 
       {/* Stats */}
       <div className="results__stats">

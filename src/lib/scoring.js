@@ -58,6 +58,38 @@ export function getRank(score) {
 }
 
 /**
+ * Retourne la progression du joueur dans l'échelle des rangs.
+ * @param {number} score
+ * @returns {{ current: object, next: object|null, percentage: number, ptsToNext: number }}
+ */
+export function getRankProgress(score) {
+  const ranks = [
+    { name: 'Bois',       nameEn: 'Wood',      color: '#8b6914', minPoints: 0 },
+    { name: 'Bronze',     nameEn: 'Bronze',     color: '#cd7f32', minPoints: 50 },
+    { name: 'Argent',     nameEn: 'Silver',     color: '#c0c0c0', minPoints: 100 },
+    { name: 'Or',         nameEn: 'Gold',       color: '#ffd700', minPoints: 200 },
+    { name: 'Diamant',    nameEn: 'Diamond',    color: '#b9f2ff', minPoints: 350 },
+    { name: 'Légendaire', nameEn: 'Legendary',  color: '#ff6f00', minPoints: 500 },
+  ]
+
+  let currentIdx = 0
+  for (let i = 0; i < ranks.length; i++) {
+    if (score >= ranks[i].minPoints) currentIdx = i
+  }
+
+  const current = ranks[currentIdx]
+  const next = ranks[currentIdx + 1] || null
+
+  if (!next) return { current, next: null, percentage: 100, ptsToNext: 0 }
+
+  const range = next.minPoints - current.minPoints
+  const progress = score - current.minPoints
+  const percentage = Math.min(100, Math.round((progress / range) * 100))
+
+  return { current, next, percentage, ptsToNext: next.minPoints - score }
+}
+
+/**
  * Calcule le résultat complet d'une réponse et met à jour le state de scoring.
  * @param {boolean} correct
  * @param {number} basePoints - Points de base de la question

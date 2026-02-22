@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { calculatePoints, getStreakMultiplier, getStreakLabel, getRank, processAnswer } from './scoring'
+import { calculatePoints, getStreakMultiplier, getStreakLabel, getRank, getRankProgress, processAnswer } from './scoring'
 
 describe('calculatePoints', () => {
   it('retourne les points de base si correct', () => {
@@ -92,6 +92,76 @@ describe('getRank', () => {
   it('retourne les noms anglais', () => {
     expect(getRank(0).nameEn).toBe('Wood')
     expect(getRank(500).nameEn).toBe('Legendary')
+  })
+})
+
+describe('getRankProgress', () => {
+  it('score 0 : Bois, 0%, 50 pts pour Bronze', () => {
+    const p = getRankProgress(0)
+    expect(p.current.name).toBe('Bois')
+    expect(p.next.name).toBe('Bronze')
+    expect(p.percentage).toBe(0)
+    expect(p.ptsToNext).toBe(50)
+  })
+
+  it('score 25 : Bois, 50% vers Bronze', () => {
+    const p = getRankProgress(25)
+    expect(p.current.name).toBe('Bois')
+    expect(p.percentage).toBe(50)
+    expect(p.ptsToNext).toBe(25)
+  })
+
+  it('score 49 : encore Bois, 98%', () => {
+    const p = getRankProgress(49)
+    expect(p.current.name).toBe('Bois')
+    expect(p.percentage).toBe(98)
+    expect(p.ptsToNext).toBe(1)
+  })
+
+  it('score 50 : Bronze, 0%, 50 pts pour Argent', () => {
+    const p = getRankProgress(50)
+    expect(p.current.name).toBe('Bronze')
+    expect(p.next.name).toBe('Argent')
+    expect(p.percentage).toBe(0)
+    expect(p.ptsToNext).toBe(50)
+  })
+
+  it('score 100 : Argent, 0%, 100 pts pour Or', () => {
+    const p = getRankProgress(100)
+    expect(p.current.name).toBe('Argent')
+    expect(p.next.name).toBe('Or')
+    expect(p.percentage).toBe(0)
+    expect(p.ptsToNext).toBe(100)
+  })
+
+  it('score 275 : Or, 50% vers Diamant', () => {
+    const p = getRankProgress(275)
+    expect(p.current.name).toBe('Or')
+    expect(p.next.name).toBe('Diamant')
+    expect(p.percentage).toBe(50)
+    expect(p.ptsToNext).toBe(75)
+  })
+
+  it('score 499 : Diamant, 99% vers Légendaire', () => {
+    const p = getRankProgress(499)
+    expect(p.current.name).toBe('Diamant')
+    expect(p.next.name).toBe('Légendaire')
+    expect(p.ptsToNext).toBe(1)
+  })
+
+  it('score 500 : Légendaire, 100%, pas de rang suivant', () => {
+    const p = getRankProgress(500)
+    expect(p.current.name).toBe('Légendaire')
+    expect(p.next).toBeNull()
+    expect(p.percentage).toBe(100)
+    expect(p.ptsToNext).toBe(0)
+  })
+
+  it('score 999 : toujours Légendaire, pas de rang suivant', () => {
+    const p = getRankProgress(999)
+    expect(p.current.name).toBe('Légendaire')
+    expect(p.next).toBeNull()
+    expect(p.percentage).toBe(100)
   })
 })
 
